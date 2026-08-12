@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Dizinor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dizinor - Film & Dizi Platformu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #141414; color: #fff; }
+        
+        /* Navbar */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: rgba(0,0,0,0.9); position: fixed; width: 100%; top: 0; z-index: 100; }
+        .logo { color: #e50914; font-size: 28px; font-weight: bold; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { color: #e5e5e5; text-decoration: none; font-size: 14px; }
+        nav a:hover { color: #fff; }
+        
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .search-box { position: relative; }
+        .search-box input { background: #000; border: 1px solid #aaa; color: #fff; padding: 5px 10px; border-radius: 4px; }
+        .btn-voice { background: #e50914; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .profile-icon { width: 32px; height: 32px; background: #e50914; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; }
+        
+        /* Mod Seçimi (Çocuk / Yetişkin) */
+        .mode-switch { background: #333; padding: 5px 10px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+
+        /* Ana İçerik */
+        main { margin-top: 80px; padding: 20px 40px; }
+        .hero { height: 300px; background: linear-gradient(to right, #000, transparent), url('https://picsum.photos/1200/400') center/cover; display: flex; flex-direction: column; justify-content: center; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .hero h2 { font-size: 40px; margin-bottom: 10px; }
+        .hero button { width: 120px; padding: 10px; background: #fff; border: none; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+        /* Kategoriler */
+        .category { margin-bottom: 30px; }
+        .category h3 { margin-bottom: 15px; font-size: 20px; color: #e5e5e5; }
+        .movie-row { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
+        .movie-card { min-width: 180px; height: 260px; background: #222; border-radius: 6px; overflow: hidden; position: relative; cursor: pointer; transition: transform 0.2s; }
+        .movie-card:hover { transform: scale(1.05); }
+        .movie-card img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Video Ekleme Butonu */
+        .add-content-btn { position: fixed; bottom: 20px; right: 20px; background: #e50914; color: #fff; padding: 15px 20px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    </style>
 </head>
 <body>
-    <h1>Dizinor Çalışıyor!</h1>
+
+    <header>
+        <div class="logo">Dizinor</div>
+        <nav>
+            <ul>
+                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="#">Diziler</a></li>
+                <li><a href="#">Filmler</a></li>
+                <li><a href="#">Anime</a></li>
+                <li><a href="#">Korku</a></li>
+                <li><a href="#">Komedi</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Ara...">
+                <button class="btn-voice" onclick="startVoice()">🎙️</button>
+            </div>
+            <div class="mode-switch" id="modeBtn" onclick="toggleMode()">Yetişkin Modu</div>
+            <div class="profile-icon">E</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h2>Öne Çıkan Dizi</h2>
+            <p style="margin-bottom: 15px;">Aksiyon dolu yeni sezonuyla şimdi yayında.</p>
+            <button>Oynat</button>
+        </div>
+
+        <div class="category">
+            <h3>Anime</h3>
+            <div class="movie-row">
+                <div class="movie-card"><img src="https://picsum.photos/200/300?random=1" alt="Anime 1"></div>
+                <div class="movie-card"><img src="https://picsum.photos/200/300?random=2" alt="Anime 2"></div>
+                <div class="movie-card"><img src="https://picsum.photos/200/300?random=3" alt="Anime 3"></div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h3>Korku & Gerilim</h3>
+            <div class="movie-row">
+                <div class="movie-card"><img src="https://picsum.photos/200/300?random=4" alt="Korku 1"></div>
+                <div class="movie-card"><img src="https://picsum.photos/200/300?random=5" alt="Korku 2"></div>
+            </div>
+        </div>
+    </main>
+
+    <button class="add-content-btn" onclick="alert('Video ekleme modülü yakında ekleniyor!')">+ Video/Dizi Ekle</button>
+
+    <script>
+        // Basit Sesli Arama Desteği (Tarayıcı destekliyorsa)
+        function startVoice() {
+            if ('webkitSpeechRecognition' in window) {
+                var recognition = new webkitSpeechRecognition();
+                recognition.lang = "tr-TR";
+                recognition.start();
+                recognition.onresult = function(event) {
+                    document.getElementById('searchInput').value = event.results[0][0].transcript;
+                };
+            } else {
+                alert("Tarayıcınız sesli aramayı desteklemiyor.");
+            }
+        }
+
+        // Çocuk / Yetişkin Modu Değişimi
+        function toggleMode() {
+            var btn = document.getElementById('modeBtn');
+            if(btn.innerText === "Yetişkin Modu") {
+                btn.innerText = "Çocuk Modu";
+                btn.style.background = "#0080ff";
+            } else {
+                btn.innerText = "Yetişkin Modu";
+                btn.style.background = "#333";
+            }
+        }
+    </script>
 </body>
 </html>
+
