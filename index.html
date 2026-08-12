@@ -1,397 +1,1317 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>StreamFlix</title>
+
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#141418;
+  --surface2:#1d1d23;
+  --text:#f7f7f8;
+  --muted:#a6a6b0;
+  --accent:#e50914;
+  --border:rgba(255,255,255,.09);
+  --shadow:0 15px 50px rgba(0,0,0,.45);
+}
+
+*{
+  box-sizing:border-box
+}
+
+html,body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden
+}
+
+button,input,textarea,select{
+  font:inherit
+}
+
+button{
+  cursor:pointer;
+  border:0
+}
+
+img{
+  display:block;
+  max-width:100%
+}
+
+.hidden{
+  display:none!important
+}
+
+.app{
+  min-height:100vh;
+  background:
+    radial-gradient(
+      900px 500px at 80% -10%,
+      rgba(229,9,20,.17),
+      transparent 60%
+    ),
+    linear-gradient(
+      #09090b,
+      #08080a
+    )
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:rgba(5,5,7,.9);
+  backdrop-filter:blur(12px);
+  padding:12px 16px;
+  border-bottom:1px solid var(--border)
+}
+
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  max-width:1400px;
+  margin:auto
+}
+
+.logo{
+  font-weight:900;
+  font-size:24px;
+  color:var(--accent);
+  letter-spacing:-1px;
+  background:none
+}
+
+.logo span{
+  color:#fff
+}
+
+.toplinks{
+  display:flex;
+  gap:14px
+}
+
+.toplinks button{
+  background:none;
+  color:#ccc
+}
+
+.toplinks button.active{
+  color:#fff;
+  font-weight:800
+}
+
+.spacer{
+  flex:1
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#ffffff12;
+  color:#fff
+}
+
+.profile-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#ffffff12;
+  color:#fff;
+  border-radius:999px;
+  padding:5px 10px 5px 5px
+}
+
+.avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#29292f;
+  font-weight:800
+}
+
+.hero{
+  max-width:1400px;
+  margin:auto;
+  min-height:470px;
+  position:relative;
+  overflow:hidden;
+  border-radius:0 0 24px 24px
+}
+
+.hero img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      90deg,
+      #000e 0%,
+      #0008 42%,
+      #0002 75%
+    ),
+    linear-gradient(
+      0deg,
+      var(--bg),
+      transparent 45%
+    )
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:650px;
+  padding:100px 30px 60px
+}
+
+.kicker,
+.tag{
+  display:inline-flex;
+  background:#ffffff12;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px
+}
+
+.hero h1{
+  font-size:clamp(40px,7vw,76px);
+  line-height:.95;
+  margin:18px 0 12px;
+  letter-spacing:-2px
+}
+
+.hero p{
+  color:#ddd;
+  line-height:1.55
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px
+}
+
+.primary,
+.secondary{
+  padding:11px 16px;
+  border-radius:10px;
+  font-weight:800;
+  display:inline-flex;
+  align-items:center;
+  gap:8px
+}
+
+.primary{
+  background:#fff;
+  color:#080808
+}
+
+.secondary{
+  background:#ffffff13;
+  color:#fff;
+  border:1px solid var(--border)
+}
+
+.section,
+.page{
+  max-width:1400px;
+  margin:28px auto 0;
+  padding:0 16px
+}
+
+.page{
+  padding-bottom:110px
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px
+}
+
+.section h2{
+  margin:0;
+  font-size:21px
+}
+
+.muted,
+small{
+  color:var(--muted)
+}
+
+.rail{
+  display:flex;
+  gap:12px;
+  overflow:auto;
+  padding:3px 2px 10px
+}
+
+.rail::-webkit-scrollbar{
+  display:none
+}
+
+.card{
+  min-width:160px;
+  width:160px;
+  background:#121217;
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  transition:.2s transform
+}
+
+.card:hover{
+  transform:translateY(-3px)
+}
+
+.card img{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover
+}
+
+.card-body{
+  padding:9px
+}
+
+.card-title{
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis
+}
+
+.card-meta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px
+}
+
+.bottomnav{
+  position:fixed;
+  left:50%;
+  bottom:max(8px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:50;
+  display:flex;
+  gap:4px;
+  padding:7px;
+  border:1px solid var(--border);
+  background:#19191eea;
+  backdrop-filter:blur(14px);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  width:min(520px,calc(100% - 14px))
+}
+
+.navitem{
+  flex:1;
+  padding:7px 5px;
+  background:none;
+  color:#aaa;
+  border-radius:13px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  font-size:10px
+}
+
+.navitem.active{
+  background:#ffffff12;
+  color:#fff
+}
+
+.nav-search{
+  flex:0 0 50px;
+  background:var(--accent);
+  color:#fff;
+  border-radius:50%;
+  font-size:20px
+}
+
+.panel{
+  background:#141418dd;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow)
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fill,minmax(155px,1fr));
+  gap:13px
+}
+
+.grid .card{
+  width:auto;
+  min-width:0
+}
+
+.input,
+.select,
+.textarea{
+  width:100%;
+  background:#0f0f13;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px;
+  color:#fff;
+  outline:0
+}
+
+.textarea{
+  min-height:100px;
+  resize:vertical
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+  border-color:var(--accent)
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+  gap:12px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+.label{
+  display:block;
+  font-size:12px;
+  color:#aaa;
+  margin:0 0 6px
+}
+
+.searchbar{
+  display:flex;
+  gap:9px;
+  margin-bottom:16px
+}
+
+.searchbar .input{
+  flex:1
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  margin-bottom:16px
+}
+
+.tab{
+  padding:9px 13px;
+  border-radius:999px;
+  background:#15151a;
+  color:#bbb;
+  border:1px solid var(--border);
+  white-space:nowrap
+}
+
+.tab.active{
+  background:#fff;
+  color:#111
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#000b;
+  display:grid;
+  place-items:center;
+  padding:12px
+}
+
+.modal{
+  width:min(1000px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#101014;
+  border:1px solid var(--border);
+  border-radius:20px
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 15px;
+  border-bottom:1px solid var(--border)
+}
+
+.modal-body{
+  padding:15px
+}
+
+.close{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#ffffff12;
+  color:#fff
+}
+
+.detail{
+  display:grid;
+  grid-template-columns:230px 1fr;
+  gap:20px
+}
+
+.detail>img{
+  width:100%;
+  border-radius:14px;
+  aspect-ratio:2/3;
+  object-fit:cover
+}
+
+.detail h1{
+  font-size:clamp(30px,5vw,52px);
+  margin:0 0 8px
+}
+
+.meta-row{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:10px 0;
+  color:#ddd
+}
+
+.description{
+  color:#c6c6cb;
+  line-height:1.6
+}
+
+.video{
+  width:100%;
+  max-height:72vh;
+  background:#000;
+  border-radius:12px
+}
+
+.comment-list{
+  display:grid;
+  gap:8px;
+  margin-top:12px
+}
+
+.comment{
+  background:#17171c;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px
+}
+
+.comment p{
+  margin:5px 0 0;
+  color:#ddd;
+  font-size:13px
+}
+
+.auth,
+.profile-screen{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:
+    radial-gradient(
+      500px 300px at 50% 0%,
+      rgba(229,9,20,.2),
+      transparent 65%
+    ),
+    #08080a
+}
+
+.auth-card,
+.profile-box{
+  width:min(850px,100%)
+}
+
+.auth-card{
+  max-width:430px;
+  background:#111116;
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px
+}
+
+.auth-card h1{
+  margin:0 0 5px
+}
+
+.auth-card p,
+.profile-box p{
+  color:#aaa
+}
+
+.auth-tabs{
+  display:flex;
+  gap:6px;
+  margin:15px 0
+}
+
+.auth-tab{
+  flex:1;
+  padding:9px;
+  border-radius:10px;
+  background:#17171c;
+  color:#aaa
+}
+
+.auth-tab.active{
+  background:#fff;
+  color:#111
+}
+
+.profiles{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:25px 0
+}
+
+.profile-card{
+  width:145px;
+  padding:13px;
+  background:#131318;
+  border:1px solid var(--border);
+  border-radius:18px;
+  color:#fff;
+  text-align:center
+}
+
+.profile-icon{
+  width:90px;
+  height:90px;
+  border-radius:18px;
+  margin:auto auto 10px;
+  display:grid;
+  place-items:center;
+  font-size:38px;
+  background:#29292f
+}
+
+.profile-card small{
+  display:block;
+  margin-top:4px
+}
+
+.profile-actions{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap
+}
+
+.toast{
+  position:fixed;
+  right:12px;
+  bottom:88px;
+  z-index:200;
+  background:#1b1b21;
+  border:1px solid var(--border);
+  padding:10px 12px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  max-width:320px
+}
+
+.danger{
+  background:#64151a!important
+}
+
+.success{
+  background:#16451f!important
+}
+
+.reel-wrap{
+  display:grid;
+  place-items:center
+}
+
+.reel{
+  position:relative;
+  width:min(430px,92vw);
+  height:min(76vh,760px);
+  background:#08080b;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--border)
+}
+
+.reel video{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.reel:after{
+  content:"";
+  position:absolute;
+  inset:45% 0 0;
+  background:
+    linear-gradient(
+      transparent,
+      #000e
+    )
+}
+
+.reel-info{
+  position:absolute;
+  z-index:2;
+  left:15px;
+  right:70px;
+  bottom:15px
+}
+
+.reel-actions{
+  position:absolute;
+  z-index:3;
+  right:10px;
+  bottom:15px;
+  display:grid;
+  gap:9px
+}
+
+.reel-act{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#0008;
+  color:#fff;
+  border:1px solid #ffffff20
+}
+
+.reel-nav{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px
+}
+
+.split{
+  display:grid;
+  grid-template-columns:290px 1fr;
+  gap:12px
+}
+
+.chat-list{
+  display:grid;
+  gap:6px;
+  max-height:60vh;
+  overflow:auto
+}
+
+.chat-user{
+  padding:10px;
+  border-radius:12px;
+  background:none;
+  color:#fff;
+  text-align:left
+}
+
+.chat-user.active{
+  background:#1a1a20
+}
+
+.messages{
+  height:48vh;
+  overflow:auto;
+  background:#0d0d10;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:11px;
+  display:flex;
+  flex-direction:column;
+  gap:8px
+}
+
+.msg{
+  max-width:78%;
+  padding:8px 10px;
+  border-radius:14px;
+  background:#1b1b21
+}
+
+.msg.me{
+  margin-left:auto;
+  background:var(--accent)
+}
+
+.msg small{
+  display:block;
+  opacity:.7;
+  font-size:9px;
+  margin-top:4px
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:
+    repeat(4,1fr);
+  gap:10px
+}
+
+.kpi{
+  padding:13px;
+  background:#15151a;
+  border:1px solid var(--border);
+  border-radius:14px
+}
+
+.kpi b{
+  font-size:26px;
+  display:block
+}
+
+.table-wrap{
+  overflow:auto
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse
+}
+
+.table th,
+.table td{
+  padding:9px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  text-align:left
+}
+
+@media(max-width:800px){
+
+  .toplinks{
+    display:none
+  }
+
+  .hero{
+    min-height:430px
+  }
+
+  .hero-content{
+    padding:85px 20px 45px
+  }
+
+  .detail{
+    grid-template-columns:1fr
+  }
+
+  .detail>img{
+    max-width:200px
+  }
+
+  .split{
+    grid-template-columns:1fr
+  }
+
+  .chat-list{
+    display:flex;
+    overflow:auto
+  }
+
+  .chat-user{
+    min-width:170px
+  }
+
+  .kpis{
+    grid-template-columns:
+      repeat(2,1fr)
+  }
+}
+
+@media(max-width:520px){
+
+  .topbar{
+    padding:10px 12px
+  }
+
+  .profile-btn{
+    display:none
+  }
+
+  .logo{
+    font-size:21px
+  }
+
+  .section,
+  .page{
+    padding-left:12px;
+    padding-right:12px
+  }
+
+  .card{
+    min-width:145px;
+    width:145px
+  }
+
+  .grid{
+    grid-template-columns:
+      repeat(2,1fr)
+  }
+
+  .form-grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+
+  .hero h1{
+    font-size:44px
+  }
+
+  .hero-content{
+    padding:65px 16px 40px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="root"></div>
+<div id="toastRoot"></div>
+
 <script>
-/*
- STREAMFLIX
- AUTH + PROFILE SYSTEM
- LocalStorage sürümü
+"use strict";
 
- Not:
- Bu sürüm GitHub Pages üzerinde çalışır.
- Gerçek çoklu cihaz kullanıcı sistemi için backend gerekir.
-*/
+/* =========================
+   AYARLAR
+========================= */
 
-const DB_KEY = "streamflix_db_v2";
-const SESSION_KEY = "streamflix_session_v2";
+const DB_KEY = "streamflix_db_final";
+const SESSION_KEY = "streamflix_session_final";
+
 const ADMIN_EMAIL = "egekaymak370@gmail.com";
+const ADMIN_PASSWORD = "Cmtkymk35";
 
-/*
- Güvenlik nedeniyle gerçek şifreni burada tekrar yazmıyorum.
- Aşağıdaki değeri kendi admin şifren olarak belirle.
-*/
-const ADMIN_PASSWORD = "BURAYA_ADMIN_SIFREN";
+const DEMO_VIDEO =
+"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
-const root = document.getElementById("root");
-const toastRoot = document.getElementById("toastRoot");
+const root =
+document.getElementById("root");
+
+const toastRoot =
+document.getElementById("toastRoot");
+
+
+/* =========================
+   YARDIMCI FONKSİYONLAR
+========================= */
 
 function uid(){
-  return crypto.randomUUID();
+
+  if(
+    typeof crypto !== "undefined" &&
+    crypto.randomUUID
+  ){
+    return crypto.randomUUID();
+  }
+
+  return Date.now()+"-"+Math.random();
 }
+
 
 function now(){
   return Date.now();
 }
 
+
 function esc(value){
+
   return String(value ?? "").replace(
     /[&<>"']/g,
-    c => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[c])
+    function(c){
+
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[c];
+
+    }
   );
 }
 
+
 function toast(message,type=""){
-  const el=document.createElement("div");
-  el.className="toast "+type;
-  el.textContent=message;
+
+  const el =
+  document.createElement("div");
+
+  el.className =
+  "toast "+type;
+
+  el.textContent =
+  message;
+
   toastRoot.appendChild(el);
 
-  setTimeout(()=>{
-    el.remove();
-  },2600);
+  setTimeout(
+    ()=>el.remove(),
+    2600
+  );
+}
+
+
+function poster(name){
+
+  return "https://picsum.photos/seed/"+
+  encodeURIComponent(name)+
+  "/400/600";
+}
+
+
+function hero(name){
+
+  return "https://picsum.photos/seed/"+
+  encodeURIComponent(name)+
+  "-hero/1400/800";
 }
 
 
 /* =========================
-   DEMO İÇERİK
-========================= */
-
-const seedMovies=[
-  {
-    id:uid(),
-    type:"movie",
-    title:"Inception",
-    year:2010,
-    rating:"13+",
-    genre:"Bilim Kurgu",
-    score:8.8,
-    desc:"Zihinlerin içine girilen sürükleyici bir bilim kurgu hikâyesi.",
-    poster:"https://picsum.photos/seed/inception/400/600",
-    hero:"https://picsum.photos/seed/inceptionhero/1400/800",
-    video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id:uid(),
-    type:"movie",
-    title:"Son Ev",
-    year:2026,
-    rating:"16+",
-    genre:"Gerilim",
-    score:7.9,
-    desc:"Gizemli bir güç tarafından eve hapsolan bir ailenin hikâyesi.",
-    poster:"https://picsum.photos/seed/last-house/400/600",
-    hero:"https://picsum.photos/seed/last-house-hero/1400/800",
-    video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  }
-];
-
-const seedSeries=[
-  {
-    id:uid(),
-    type:"series",
-    title:"The Mentalist",
-    year:2008,
-    rating:"13+",
-    genre:"Suç",
-    score:8.2,
-    desc:"Keskin gözlem yeteneğine sahip bir danışmanın davaları çözme hikâyesi.",
-    poster:"https://picsum.photos/seed/mentalist/400/600",
-    hero:"https://picsum.photos/seed/mentalist-hero/1400/800",
-    seasons:[
-      {
-        id:uid(),
-        name:"1. Sezon",
-        episodes:[
-          {
-            id:uid(),
-            title:"Pilot",
-            duration:"46 dk",
-            video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-          },
-          {
-            id:uid(),
-            title:"2. Bölüm",
-            duration:"44 dk",
-            video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-          }
-        ]
-      }
-    ]
-  }
-];
-
-const seedAnime=[
-  {
-    id:uid(),
-    type:"anime",
-    title:"Anime Macerası",
-    year:2026,
-    rating:"13+",
-    genre:"Aksiyon",
-    score:8.4,
-    desc:"Dostluk ve mücadele üzerine bir anime macerası.",
-    poster:"https://picsum.photos/seed/anime/400/600",
-    hero:"https://picsum.photos/seed/animehero/1400/800",
-    seasons:[
-      {
-        id:uid(),
-        name:"1. Sezon",
-        episodes:[
-          {
-            id:uid(),
-            title:"Başlangıç",
-            duration:"23 dk",
-            video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-          }
-        ]
-      }
-    ]
-  }
-];
-
-const seedReels=[
-  {
-    id:uid(),
-    title:"Anime Edit",
-    caption:"Yeni bölümden kısa bir kesit.",
-    user:"StreamFlix",
-    video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-    likes:124
-  },
-  {
-    id:uid(),
-    title:"Film Önerisi",
-    caption:"Bu akşam ne izlesek?",
-    user:"StreamFlix",
-    video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-    likes:78
-  }
-];
-
-
-/* =========================
-   DATABASE
+   ADMIN
 ========================= */
 
 function createAdmin(){
+
   return {
+
     id:uid(),
+
     email:ADMIN_EMAIL,
+
     password:ADMIN_PASSWORD,
+
     name:"Ege",
+
     role:"admin",
+
     bannedUntil:0,
+
     createdAt:now(),
+
     friends:[],
+
     pending:[],
+
     notifications:[],
+
     profiles:[
       {
         id:uid(),
         name:"Admin",
         type:"admin",
         avatar:"🛡️"
-      },
-      {
-        id:uid(),
-        name:"Standart",
-        type:"user",
-        avatar:"🙂"
-      },
-      {
-        id:uid(),
-        name:"Çocuk",
-        type:"child",
-        avatar:"🧒"
       }
     ]
+
   };
 }
 
-function createDemoUser(){
-  return {
-    id:uid(),
-    email:"demo@streamflix.local",
-    password:"123456",
-    name:"Demo Kullanıcı",
-    role:"user",
-    bannedUntil:0,
-    createdAt:now(),
-    friends:[],
-    pending:[],
-    notifications:[],
-    profiles:[
-      {
-        id:uid(),
-        name:"Demo",
-        type:"user",
-        avatar:"🙂"
-      },
-      {
-        id:uid(),
-        name:"Çocuk",
-        type:"child",
-        avatar:"🧒"
-      }
-    ]
-  };
-}
+
+/* =========================
+   VERİTABANI
+========================= */
 
 function createDB(){
+
   return {
+
     users:[
-      createAdmin(),
-      createDemoUser()
+      createAdmin()
     ],
 
     contents:[
-      ...seedMovies,
-      ...seedSeries,
-      ...seedAnime
+
+      {
+        id:uid(),
+        type:"movie",
+        title:"Inception",
+        year:2010,
+        rating:"13+",
+        genre:"Bilim Kurgu",
+        score:8.8,
+        desc:
+        "Zihinlerin içine girilen sürükleyici bir bilim kurgu hikâyesi.",
+        poster:poster("inception"),
+        hero:hero("inception"),
+        video:DEMO_VIDEO
+      },
+
+      {
+        id:uid(),
+        type:"movie",
+        title:"Son Ev",
+        year:2026,
+        rating:"16+",
+        genre:"Gerilim",
+        score:7.9,
+        desc:
+        "Gizemli bir güç tarafından eve hapsolan bir ailenin hikâyesi.",
+        poster:poster("last-house"),
+        hero:hero("last-house"),
+        video:DEMO_VIDEO
+      },
+
+      {
+        id:uid(),
+        type:"movie",
+        title:"İnsanlığın Sonu",
+        year:2026,
+        rating:"16+",
+        genre:"Dram",
+        score:8.1,
+        desc:
+        "Dünyanın değiştiği bir gecenin ardından hayatta kalanların yolculuğu.",
+        poster:poster("humanity"),
+        hero:hero("humanity"),
+        video:DEMO_VIDEO
+      },
+
+      {
+        id:uid(),
+        type:"series",
+        title:"The Mentalist",
+        year:2008,
+        rating:"13+",
+        genre:"Suç",
+        score:8.2,
+        desc:
+        "Keskin gözlem yeteneğine sahip bir danışmanın davaları çözme hikâyesi.",
+        poster:poster("mentalist"),
+        hero:hero("mentalist"),
+
+        seasons:[
+          {
+            id:uid(),
+            name:"1. Sezon",
+
+            episodes:[
+              {
+                id:uid(),
+                title:"Pilot",
+                duration:"46 dk",
+                video:DEMO_VIDEO
+              },
+
+              {
+                id:uid(),
+                title:"2. Bölüm",
+                duration:"44 dk",
+                video:DEMO_VIDEO
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id:uid(),
+        type:"anime",
+        title:"Anime Macerası",
+        year:2026,
+        rating:"13+",
+        genre:"Aksiyon",
+        score:8.4,
+        desc:
+        "Dostluk ve mücadele üzerine bir anime macerası.",
+        poster:poster("anime"),
+        hero:hero("anime"),
+
+        seasons:[
+          {
+            id:uid(),
+            name:"1. Sezon",
+
+            episodes:[
+              {
+                id:uid(),
+                title:"Başlangıç",
+                duration:"23 dk",
+                video:DEMO_VIDEO
+              }
+            ]
+          }
+        ]
+      }
+
     ],
 
-    reels:seedReels,
+    reels:[
+
+      {
+        id:uid(),
+        title:"Anime Edit",
+        caption:"Kısa bir demo reel.",
+        user:"StreamFlix",
+        video:DEMO_VIDEO,
+        likes:124
+      },
+
+      {
+        id:uid(),
+        title:"Film Önerisi",
+        caption:"Bu akşam ne izlesek?",
+        user:"StreamFlix",
+        video:DEMO_VIDEO,
+        likes:78
+      }
+
+    ],
 
     comments:[],
     messages:[],
     reports:[],
     bans:[],
-    likes:{},
     watchHistory:{},
 
     settings:{
       accent:"#e50914",
-      bg:"#09090b",
-      surface:"#141418",
       logoText:"STREAMFLIX",
       heroId:null
     }
+
   };
 }
 
+
+/* =========================
+   DB KAYDET / YÜKLE
+========================= */
+
 function saveDB(){
+
   localStorage.setItem(
     DB_KEY,
     JSON.stringify(db)
   );
 }
 
+
 function loadDB(){
 
-  const raw=localStorage.getItem(DB_KEY);
-
-  if(!raw){
-    const fresh=createDB();
-
-    if(fresh.contents.length){
-      fresh.settings.heroId=fresh.contents[0].id;
-    }
-
-    localStorage.setItem(
-      DB_KEY,
-      JSON.stringify(fresh)
-    );
-
-    return fresh;
-  }
-
   try{
-    const parsed=JSON.parse(raw);
 
-    parsed.users ||= [];
-    parsed.contents ||= [];
-    parsed.reels ||= [];
-    parsed.comments ||= [];
-    parsed.messages ||= [];
-    parsed.reports ||= [];
-    parsed.bans ||= [];
-    parsed.likes ||= {};
-    parsed.watchHistory ||= {};
+    const raw =
+    localStorage.getItem(DB_KEY);
 
-    parsed.settings ||= {
-      accent:"#e50914",
-      bg:"#09090b",
-      surface:"#141418",
-      logoText:"STREAMFLIX",
-      heroId:parsed.contents[0]?.id || null
-    };
+    if(raw){
 
-    return parsed;
+      const data =
+      JSON.parse(raw);
+
+      if(
+        data &&
+        Array.isArray(data.users) &&
+        Array.isArray(data.contents)
+      ){
+
+        data.reels ||= [];
+        data.comments ||= [];
+        data.messages ||= [];
+        data.reports ||= [];
+        data.bans ||= [];
+        data.watchHistory ||= {};
+
+        data.settings ||= {
+          accent:"#e50914",
+          logoText:"STREAMFLIX",
+          heroId:data.contents[0]?.id || null
+        };
+
+        return data;
+      }
+    }
 
   }catch(error){
 
-    localStorage.removeItem(DB_KEY);
+    console.error(error);
 
-    return createDB();
-  }
-}
-
-let db=loadDB();
-
-let session=
-  JSON.parse(
-    localStorage.getItem(SESSION_KEY) || "null"
-  );
-
-let activeProfile=null;
-let currentSection="home";
-let selectedChatUser=null;
-let reelIndex=0;
-
-
-/* =========================
-   ADMIN MIGRATION
-========================= */
-
-function repairAdmin(){
-
-  let admin=db.users.find(
-    u =>
-      u.email &&
-      u.email.toLowerCase()===ADMIN_EMAIL
-  );
-
-  if(!admin){
-
-    admin=createAdmin();
-
-    db.users.push(admin);
-
-  }else{
-
-    admin.role="admin";
-
-    admin.profiles ||= [];
-
-    const adminProfile=
-      admin.profiles.find(
-        p=>p.type==="admin"
-      );
-
-    if(!adminProfile){
-
-      admin.profiles.unshift({
-        id:uid(),
-        name:"Admin",
-        type:"admin",
-        avatar:"🛡️"
-      });
-
-    }
   }
 
-  saveDB();
+  const fresh =
+  createDB();
+
+  fresh.settings.heroId =
+  fresh.contents[0]?.id || null;
+
+  localStorage.setItem(
+    DB_KEY,
+    JSON.stringify(fresh)
+  );
+
+  return fresh;
 }
 
-repairAdmin();
+
+let db =
+loadDB();
 
 
 /* =========================
    SESSION
 ========================= */
+
+let session =
+JSON.parse(
+  localStorage.getItem(
+    SESSION_KEY
+  ) || "null"
+);
+
+
+let activeProfile = null;
+
+let currentSection = "home";
+
+let selectedChatUser = null;
+
+let reelIndex = 0;
+
 
 function saveSession(){
 
@@ -401,21 +1321,78 @@ function saveSession(){
   );
 }
 
+
 function getUser(){
 
   if(!session?.userId){
+
     return null;
   }
 
   return db.users.find(
-    u=>u.id===session.userId
+    u => u.id === session.userId
   );
 }
 
-function getProfiles(){
 
-  return getUser()?.profiles || [];
+/* =========================
+   ADMIN ONAR
+========================= */
+
+function repairAdmin(){
+
+  let admin =
+  db.users.find(
+    u =>
+      u.email?.toLowerCase() ===
+      ADMIN_EMAIL.toLowerCase()
+  );
+
+  if(!admin){
+
+    admin =
+    createAdmin();
+
+    db.users.push(admin);
+
+  }
+
+  admin.email =
+  ADMIN_EMAIL;
+
+  admin.password =
+  ADMIN_PASSWORD;
+
+  admin.role =
+  "admin";
+
+  admin.profiles ||= [];
+
+  if(
+    !admin.profiles.some(
+      p => p.type === "admin"
+    )
+  ){
+
+    admin.profiles.unshift({
+
+      id:uid(),
+
+      name:"Admin",
+
+      type:"admin",
+
+      avatar:"🛡️"
+
+    });
+
+  }
+
+  saveDB();
 }
+
+
+repairAdmin();
 
 
 /* =========================
@@ -425,26 +1402,14 @@ function getProfiles(){
 function setTheme(){
 
   document.documentElement
-    .style
-    .setProperty(
-      "--accent",
-      db.settings.accent || "#e50914"
-    );
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--bg",
-      db.settings.bg || "#09090b"
-    );
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--surface",
-      db.settings.surface || "#141418"
-    );
+  .style
+  .setProperty(
+    "--accent",
+    db.settings.accent ||
+    "#e50914"
+  );
 }
+
 
 setTheme();
 
@@ -453,11 +1418,18 @@ setTheme();
    LOGIN
 ========================= */
 
-function login(email,password){
+function login(
+  email,
+  password
+){
 
-  email=email.trim().toLowerCase();
+  email =
+  email.trim().toLowerCase();
 
-  if(!email || !password){
+  if(
+    !email ||
+    !password
+  ){
 
     toast(
       "E-posta ve şifre gerekli.",
@@ -467,11 +1439,13 @@ function login(email,password){
     return;
   }
 
-  const u=db.users.find(
+  const u =
+  db.users.find(
     x =>
-      x.email &&
-      x.email.toLowerCase()===email &&
-      x.password===password
+      x.email?.toLowerCase() ===
+      email &&
+      x.password ===
+      password
   );
 
   if(!u){
@@ -486,24 +1460,26 @@ function login(email,password){
 
   if(
     u.bannedUntil &&
-    u.bannedUntil>now()
+    u.bannedUntil > now()
   ){
 
     toast(
-      "Hesabınız geçici olarak kısıtlandı.",
+      "Hesap geçici olarak kısıtlandı.",
       "danger"
     );
 
     return;
   }
 
-  session={
+  session = {
+
     userId:u.id
+
   };
 
   saveSession();
 
-  activeProfile=null;
+  activeProfile = null;
 
   showProfiles();
 }
@@ -513,22 +1489,31 @@ function login(email,password){
    KAYIT
 ========================= */
 
-function register(name,email,password){
+function register(
+  name,
+  email,
+  password
+){
 
-  name=name.trim();
-  email=email.trim().toLowerCase();
+  name =
+  name.trim();
 
-  if(name.length<2){
+  email =
+  email.trim().toLowerCase();
+
+  if(name.length < 2){
 
     toast(
-      "Geçerli bir isim gir.",
+      "Ad en az 2 karakter olmalı.",
       "danger"
     );
 
     return;
   }
 
-  if(!email.includes("@")){
+  if(
+    !/^\S+@\S+\.\S+$/.test(email)
+  ){
 
     toast(
       "Geçerli bir e-posta gir.",
@@ -538,7 +1523,7 @@ function register(name,email,password){
     return;
   }
 
-  if(password.length<6){
+  if(password.length < 6){
 
     toast(
       "Şifre en az 6 karakter olmalı.",
@@ -548,10 +1533,11 @@ function register(name,email,password){
     return;
   }
 
-  const exists=db.users.some(
+  const exists =
+  db.users.some(
     u =>
-      u.email &&
-      u.email.toLowerCase()===email
+      u.email?.toLowerCase() ===
+      email
   );
 
   if(exists){
@@ -564,49 +1550,63 @@ function register(name,email,password){
     return;
   }
 
-  /*
-   Normal kullanıcı hiçbir zaman
-   kayıt ekranından admin olamaz.
-  */
+  const newUser = {
 
-  const newUser={
     id:uid(),
+
     email,
+
     password,
+
     name,
+
     role:"user",
+
     bannedUntil:0,
+
     createdAt:now(),
+
     friends:[],
+
     pending:[],
+
     notifications:[],
+
     profiles:[
+
       {
         id:uid(),
-        name:name,
+        name,
         type:"user",
         avatar:"🙂"
       },
+
       {
         id:uid(),
         name:"Çocuk",
         type:"child",
         avatar:"🧒"
       }
+
     ]
+
   };
 
-  db.users.push(newUser);
+  db.users.push(
+    newUser
+  );
 
   saveDB();
 
-  session={
+  session = {
+
     userId:newUser.id
+
   };
 
   saveSession();
 
-  activeProfile=null;
+  activeProfile = null;
 
   toast(
     "Hesabın oluşturuldu.",
@@ -623,8 +1623,9 @@ function register(name,email,password){
 
 function logout(){
 
-  session=null;
-  activeProfile=null;
+  session = null;
+
+  activeProfile = null;
 
   localStorage.removeItem(
     SESSION_KEY
@@ -635,47 +1636,54 @@ function logout(){
 
 
 /* =========================
-   AUTH SCREEN
+   GİRİŞ EKRANI
 ========================= */
 
-function renderAuth(){
+function renderAuth(
+  mode = "login"
+){
 
-  root.innerHTML=`
+  root.innerHTML = `
+
     <div class="auth">
+
       <div class="auth-card">
 
-        <div
-          class="logo"
-          style="margin-bottom:18px"
-        >
-          ${esc(
-            db.settings.logoText ||
-            "STREAMFLIX"
-          )}
+        <div class="logo">
+          STREAM<span>FLIX</span>
         </div>
 
-        <h1
-          id="authTitle"
-          style="margin-bottom:6px"
-        >
-          Hoş geldin
+        <h1>
+          ${
+            mode === "login"
+            ? "Hoş geldin"
+            : "Hesap oluştur"
+          }
         </h1>
 
         <p>
-          Film, dizi, anime ve daha fazlası.
+          Film, dizi, anime ve reels.
         </p>
 
         <div class="auth-tabs">
 
           <button
-            class="auth-tab active"
+            class="auth-tab ${
+              mode === "login"
+              ? "active"
+              : ""
+            }"
             id="loginTab"
           >
             Giriş Yap
           </button>
 
           <button
-            class="auth-tab"
+            class="auth-tab ${
+              mode === "register"
+              ? "active"
+              : ""
+            }"
             id="registerTab"
           >
             Kayıt Ol
@@ -686,31 +1694,24 @@ function renderAuth(){
         <div id="authForm"></div>
 
       </div>
+
     </div>
+
   `;
 
-  const form=
-    document.getElementById("authForm");
+  const form =
+  document.getElementById(
+    "authForm"
+  );
 
-  function paint(mode){
 
-    document
-      .getElementById("loginTab")
-      .classList.toggle(
-        "active",
-        mode==="login"
-      );
+  function paint(
+    current
+  ){
 
-    document
-      .getElementById("registerTab")
-      .classList.toggle(
-        "active",
-        mode==="register"
-      );
+    if(current === "login"){
 
-    if(mode==="login"){
-
-      form.innerHTML=`
+      form.innerHTML = `
 
         <label class="label">
           E-posta
@@ -745,60 +1746,69 @@ function renderAuth(){
           style="
             width:100%;
             justify-content:center;
-            margin-top:16px
+            margin-top:15px
           "
         >
           Giriş Yap
         </button>
 
-        <div
+        <p
           class="muted"
           style="
             font-size:11px;
-            margin-top:12px;
             text-align:center
           "
         >
           Hesabın yok mu?
+
           <button
             id="goRegister"
             style="
               background:none;
               color:#fff;
-              text-decoration:underline;
+              text-decoration:underline
             "
           >
             Kayıt ol
           </button>
-        </div>
+
+        </p>
 
       `;
 
       document
-        .getElementById("authSubmit")
-        .onclick=()=>{
+      .getElementById(
+        "authSubmit"
+      )
+      .onclick = () => {
 
-          login(
-            document
-              .getElementById("authEmail")
-              .value,
+        login(
+          document
+          .getElementById(
+            "authEmail"
+          ).value,
 
-            document
-              .getElementById("authPassword")
-              .value
-          );
+          document
+          .getElementById(
+            "authPassword"
+          ).value
+        );
 
-        };
+      };
 
       document
-        .getElementById("goRegister")
-        .onclick=()=>{
-          paint("register");
-        };
+      .getElementById(
+        "goRegister"
+      )
+      .onclick = () => {
+
+        paint("register");
+
+      };
 
     }else{
 
-      form.innerHTML=`
+      form.innerHTML = `
 
         <label class="label">
           Ad
@@ -823,4 +1833,1230 @@ function renderAuth(){
           class="input"
           type="email"
           autocomplete="email"
-         
+          placeholder="ornek@mail.com"
+        >
+
+        <label
+          class="label"
+          style="margin-top:10px"
+        >
+          Şifre
+        </label>
+
+        <input
+          id="authPassword"
+          class="input"
+          type="password"
+          autocomplete="new-password"
+          placeholder="En az 6 karakter"
+        >
+
+        <button
+          class="primary"
+          id="authSubmit"
+          style="
+            width:100%;
+            justify-content:center;
+            margin-top:15px
+          "
+        >
+          Kayıt Ol
+        </button>
+
+        <p
+          class="muted"
+          style="
+            font-size:11px;
+            text-align:center
+          "
+        >
+          Zaten hesabın var mı?
+
+          <button
+            id="goLogin"
+            style="
+              background:none;
+              color:#fff;
+              text-decoration:underline
+            "
+          >
+            Giriş yap
+          </button>
+
+        </p>
+
+      `;
+
+      document
+      .getElementById(
+        "authSubmit"
+      )
+      .onclick = () => {
+
+        register(
+
+          document
+          .getElementById(
+            "authName"
+          ).value,
+
+          document
+          .getElementById(
+            "authEmail"
+          ).value,
+
+          document
+          .getElementById(
+            "authPassword"
+          ).value
+
+        );
+
+      };
+
+      document
+      .getElementById(
+        "goLogin"
+      )
+      .onclick = () => {
+
+        paint("login");
+
+      };
+
+    }
+
+  }
+
+
+  document
+  .getElementById(
+    "loginTab"
+  )
+  .onclick = () =>
+  paint("login");
+
+
+  document
+  .getElementById(
+    "registerTab"
+  )
+  .onclick = () =>
+  paint("register");
+
+
+  paint(mode);
+}
+
+
+/* =========================
+   PROFİLLER
+========================= */
+
+function showProfiles(){
+
+  const u =
+  getUser();
+
+  if(!u){
+
+    renderAuth();
+
+    return;
+  }
+
+  root.innerHTML = `
+
+    <div class="profile-screen">
+
+      <div class="profile-box">
+
+        <div class="logo">
+          STREAM<span>FLIX</span>
+        </div>
+
+        <h1>
+          Kim izliyor?
+        </h1>
+
+        <p>
+          ${esc(u.email)}
+        </p>
+
+        <div class="profiles">
+
+          ${
+            (u.profiles || [])
+            .map(
+              p => `
+
+              <button
+                class="profile-card"
+                data-profile="${p.id}"
+              >
+
+                <div class="profile-icon">
+                  ${esc(
+                    p.avatar ||
+                    "🙂"
+                  )}
+                </div>
+
+                <b>
+                  ${esc(p.name)}
+                </b>
+
+                <small>
+                  ${
+                    p.type === "child"
+                    ? "Çocuk"
+                    : "Profil"
+                  }
+                </small>
+
+              </button>
+
+              `
+            )
+            .join("")
+          }
+
+        </div>
+
+        <div class="profile-actions">
+
+          <button
+            class="secondary"
+            id="addProfile"
+          >
+            + Profil ekle
+          </button>
+
+          <button
+            class="secondary"
+            id="logout"
+          >
+            Çıkış
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document
+  .querySelectorAll(
+    "[data-profile]"
+  )
+  .forEach(
+    button => {
+
+      button.onclick = () => {
+
+        activeProfile =
+        button.dataset.profile;
+
+        currentSection =
+        "home";
+
+        render();
+
+      };
+
+    }
+  );
+
+
+  document
+  .getElementById(
+    "logout"
+  )
+  .onclick = logout;
+
+
+  document
+  .getElementById(
+    "addProfile"
+  )
+  .onclick = () => {
+
+    const name =
+    prompt(
+      "Profil adı?"
+    );
+
+    if(!name){
+      return;
+    }
+
+    u.profiles.push({
+
+      id:uid(),
+
+      name:name.trim(),
+
+      type:"user",
+
+      avatar:"🙂"
+
+    });
+
+    saveDB();
+
+    showProfiles();
+
+  };
+
+}
+
+
+/* =========================
+   ÜST MENÜ
+========================= */
+
+function topBar(){
+
+  const u =
+  getUser();
+
+  let profileAvatar =
+  "🙂";
+
+  if(
+    activeProfile &&
+    u?.profiles
+  ){
+
+    const p =
+    u.profiles.find(
+      x =>
+        x.id ===
+        activeProfile
+    );
+
+    if(p){
+
+      profileAvatar =
+      p.avatar ||
+      "🙂";
+
+    }
+
+  }
+
+
+  return `
+
+    <header class="topbar">
+
+      <div class="topbar-inner">
+
+        <button
+          class="logo"
+          data-nav="home"
+        >
+          STREAM<span>FLIX</span>
+        </button>
+
+        <div class="toplinks">
+
+          <button data-nav="home">
+            Ana Sayfa
+          </button>
+
+          <button data-nav="movies">
+            Filmler
+          </button>
+
+          <button data-nav="series">
+            Diziler
+          </button>
+
+          <button data-nav="anime">
+            Anime
+          </button>
+
+          <button data-nav="reels">
+            Reels
+          </button>
+
+          ${
+            u?.role === "admin"
+            ? `
+              <button data-nav="admin">
+                Admin
+              </button>
+            `
+            : ""
+          }
+
+        </div>
+
+        <div class="spacer"></div>
+
+        <button
+          class="icon-btn"
+          data-nav="search"
+        >
+          🔎
+        </button>
+
+        <button
+          class="profile-btn"
+          id="profileButton"
+        >
+
+          <span class="avatar">
+            ${esc(profileAvatar)}
+          </span>
+
+          ${esc(
+            u?.name ||
+            "Kullanıcı"
+          )}
+
+        </button>
+
+      </div>
+
+    </header>
+
+  `;
+}
+
+
+/* =========================
+   ALT MENÜ
+========================= */
+
+function bottomNav(){
+
+  return `
+
+    <nav class="bottomnav">
+
+      <button
+        class="navitem ${
+          currentSection === "home"
+          ? "active"
+          : ""
+        }"
+        data-nav="home"
+      >
+        ⌂
+        <span>Ana Sayfa</span>
+      </button>
+
+      <button
+        class="navitem ${
+          currentSection === "movies"
+          ? "active"
+          : ""
+        }"
+        data-nav="movies"
+      >
+        🎬
+        <span>Filmler</span>
+      </button>
+
+      <button
+        class="navitem ${
+          currentSection === "search"
+          ? "active"
+          : ""
+        }"
+        data-nav="search"
+      >
+        🔎
+        <span>Arama</span>
+      </button>
+
+      <button
+        class="nav-search"
+        data-nav="reels"
+      >
+        ▶
+      </button>
+
+      <button
+        class="navitem ${
+          currentSection === "friends"
+          ? "active"
+          : ""
+        }"
+        data-nav="friends"
+      >
+        👥
+        <span>Arkadaş</span>
+      </button>
+
+      <button
+        class="navitem ${
+          currentSection === "chat"
+          ? "active"
+          : ""
+        }"
+        data-nav="chat"
+      >
+        💬
+        <span>Sohbet</span>
+      </button>
+
+    </nav>
+
+  `;
+}
+
+
+/* =========================
+   İÇERİK KARTI
+========================= */
+
+function contentCard(c){
+
+  return `
+
+    <article
+      class="card"
+      data-content="${c.id}"
+    >
+
+      <img
+        src="${esc(c.poster)}"
+        alt=""
+      >
+
+      <div class="card-body">
+
+        <div class="card-title">
+          ${esc(c.title)}
+        </div>
+
+        <div class="card-meta">
+          ${c.year}
+          · ⭐ ${c.score}
+          · ${esc(c.genre)}
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+}
+
+
+/* =========================
+   RAIL
+========================= */
+
+function rail(
+  title,
+  items
+){
+
+  if(!items.length){
+
+    return "";
+  }
+
+  return `
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          ${esc(title)}
+        </h2>
+
+        <small>
+          ${items.length} içerik
+        </small>
+
+      </div>
+
+      <div class="rail">
+
+        ${
+          items
+          .map(contentCard)
+          .join("")
+        }
+
+      </div>
+
+    </section>
+
+  `;
+}
+
+
+/* =========================
+   ANA SAYFA
+========================= */
+
+function homePage(){
+
+  const all =
+  db.contents;
+
+  const heroId =
+  db.settings.heroId ||
+  all[0]?.id;
+
+  const featured =
+  all.find(
+    x => x.id === heroId
+  ) ||
+  all[0];
+
+
+  return `
+
+    ${topBar()}
+
+    <main>
+
+      ${
+        featured
+        ? `
+
+          <section class="hero">
+
+            <img
+              src="${esc(featured.hero)}"
+            >
+
+            <div class="hero-content">
+
+              <span class="kicker">
+
+                ${
+                  featured.type === "movie"
+                  ? "Film"
+                  : featured.type === "series"
+                  ? "Dizi"
+                  : "Anime"
+                }
+
+                · ⭐ ${featured.score}
+
+              </span>
+
+              <h1>
+                ${esc(featured.title)}
+              </h1>
+
+              <p>
+                ${esc(featured.desc)}
+              </p>
+
+              <div class="actions">
+
+                <button
+                  class="primary"
+                  data-play="${featured.id}"
+                >
+                  ▶ Oynat
+                </button>
+
+                <button
+                  class="secondary"
+                  data-content="${featured.id}"
+                >
+                  ⓘ Detaylar
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        `
+        : ""
+      }
+
+      ${rail(
+        "Popüler Filmler",
+        all.filter(
+          x => x.type === "movie"
+        )
+      )}
+
+      ${rail(
+        "Diziler",
+        all.filter(
+          x => x.type === "series"
+        )
+      )}
+
+      ${rail(
+        "Anime",
+        all.filter(
+          x => x.type === "anime"
+        )
+      )}
+
+    </main>
+
+    ${bottomNav()}
+
+  `;
+}
+
+
+/* =========================
+   LİSTE SAYFASI
+========================= */
+
+function listPage(type){
+
+  const title =
+  type === "movie"
+  ? "Filmler"
+  : type === "series"
+  ? "Diziler"
+  : "Anime";
+
+  const items =
+  db.contents.filter(
+    x => x.type === type
+  );
+
+
+  return `
+
+    ${topBar()}
+
+    <main class="page">
+
+      <h1>
+        ${title}
+      </h1>
+
+      <div class="grid">
+
+        ${
+          items
+          .map(contentCard)
+          .join("")
+        }
+
+      </div>
+
+    </main>
+
+    ${bottomNav()}
+
+  `;
+}
+
+
+/* =========================
+   ARAMA
+========================= */
+
+function searchPage(){
+
+  return `
+
+    ${topBar()}
+
+    <main class="page">
+
+      <h1>
+        Arama
+      </h1>
+
+      <div class="searchbar">
+
+        <input
+          id="searchInput"
+          class="input"
+          placeholder="Film, dizi, anime ara..."
+        >
+
+        <button
+          class="primary"
+          id="searchButton"
+        >
+          Ara
+        </button>
+
+      </div>
+
+      <div
+        id="searchResults"
+      ></div>
+
+    </main>
+
+    ${bottomNav()}
+
+  `;
+}
+
+
+function drawSearch(
+  query = ""
+){
+
+  const result =
+  document.getElementById(
+    "searchResults"
+  );
+
+  if(!result){
+    return;
+  }
+
+  const q =
+  query
+  .toLowerCase()
+  .trim();
+
+  const items =
+  db.contents.filter(
+    c =>
+      (
+        c.title +
+        " " +
+        c.genre +
+        " " +
+        c.type
+      )
+      .toLowerCase()
+      .includes(q)
+  );
+
+
+  result.innerHTML = `
+
+    <div class="grid">
+
+      ${
+        items
+        .map(contentCard)
+        .join("")
+      }
+
+    </div>
+
+  `;
+
+  wire();
+}
+
+
+/* =========================
+   DETAY MODALI
+========================= */
+
+function openContent(
+  id
+){
+
+  const c =
+  db.contents.find(
+    x => x.id === id
+  );
+
+  if(!c){
+    return;
+  }
+
+  const modal =
+  document.createElement(
+    "div"
+  );
+
+  modal.className =
+  "modal-backdrop";
+
+  modal.id =
+  "contentModal";
+
+
+  modal.innerHTML = `
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <b>
+          ${esc(c.title)}
+        </b>
+
+        <button
+          class="close"
+          id="closeModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="detail">
+
+          <img
+            src="${esc(c.poster)}"
+          >
+
+          <div>
+
+            <h1>
+              ${esc(c.title)}
+            </h1>
+
+            <div class="meta-row">
+
+              <span>
+                ${c.year}
+              </span>
+
+              <span>
+                ⭐ ${c.score}
+              </span>
+
+              <span>
+                ${esc(c.genre)}
+              </span>
+
+              <span>
+                ${esc(c.rating)}
+              </span>
+
+            </div>
+
+            <p class="description">
+              ${esc(c.desc)}
+            </p>
+
+            ${
+              c.seasons
+              ? `
+
+                <div class="tabs">
+
+                  ${
+                    c.seasons
+                    .map(
+                      (s,i) => `
+
+                        <button
+                          class="tab ${
+                            i === 0
+                            ? "active"
+                            : ""
+                          }"
+                          data-season="${s.id}"
+                        >
+                          ${esc(s.name)}
+                        </button>
+
+                      `
+                    )
+                    .join("")
+                  }
+
+                </div>
+
+                <div id="episodes">
+
+                  ${
+                    c.seasons.length
+                    ? episodes(
+                        c.seasons[0]
+                      )
+                    : `<div class="muted">Bölüm yok.</div>`
+                  }
+
+                </div>
+
+              `
+              : `
+
+                <button
+                  class="primary"
+                  data-play="${c.id}"
+                >
+                  ▶ Oynat
+                </button>
+
+              `
+            }
+
+            <div
+              style="margin-top:18px"
+            >
+
+              <b>
+                Yorumlar
+              </b>
+
+              <div
+                class="comment-list"
+              >
+
+                ${
+                  db.comments
+                  .filter(
+                    x =>
+                      x.contentId ===
+                      id
+                  )
+                  .map(
+                    x => `
+
+                      <div class="comment">
+
+                        <b>
+                          ${esc(x.name)}
+                        </b>
+
+                        <p>
+                          ${esc(x.text)}
+                        </p>
+
+                      </div>
+
+                    `
+                  )
+                  .join("")
+                  ||
+                  `
+                    <div class="muted">
+                      Henüz yorum yok.
+                    </div>
+                  `
+                }
+
+              </div>
+
+              <div
+                style="
+                  display:flex;
+                  gap:8px;
+                  margin-top:10px
+                "
+              >
+
+                <input
+                  id="commentInput"
+                  class="input"
+                  placeholder="Yorum yaz..."
+                >
+
+                <button
+                  class="secondary"
+                  id="commentButton"
+                >
+                  Gönder
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(
+    modal
+  );
+
+
+  document
+  .getElementById(
+    "closeModal"
+  )
+  .onclick = () =>
+  modal.remove();
+
+
+  modal.addEventListener(
+    "click",
+    e => {
+
+      if(e.target === modal){
+
+        modal.remove();
+
+      }
+
+    }
+  );
+
+
+  modal
+  .querySelectorAll(
+    "[data-season]"
+  )
+  .forEach(
+    button => {
+
+      button.onclick = () => {
+
+        const season =
+        c.seasons.find(
+          s =>
+            s.id ===
+            button.dataset.season
+        );
+
+        document
+        .getElementById(
+          "episodes"
+        )
+        .innerHTML =
+        episodes(season);
+
+        wire();
+
+      };
+
+    }
+  );
+
+
+  document
+  .getElementById(
+    "commentButton"
+  )
+  .onclick = () => {
+
+    const text =
+    document
+    .getElementById(
+      "commentInput"
+    )
+    .value
+    .trim();
+
+    if(!text){
+      return;
+    }
+
+    db.comments.push({
+
+      id:uid(),
+
+      contentId:id,
+
+      name:
+      getUser()?.name ||
+      "Misafir",
+
+      text,
+
+      createdAt:now()
+
+    });
+
+    saveDB();
+
+    modal.remove();
+
+    openContent(id);
+
+  };
+
+
+  wire();
+
+}
+
+
+/* =========================
+   BÖLÜMLER
+========================= */
+
+function episodes(
+  season
+){
+
+  if(
+    !season ||
+    !season.episodes
+  ){
+
+    return `
+      <div class="muted">
+        Bölüm bulunamadı.
+      </div>
+    `;
+
+  }
+
+
+  return `
+
+    <div
+      style="
+        display:grid;
+        gap:7px
+      "
+    >
+
+      ${
+        season.episodes
+        .map(
+          episode => `
+
+            <button
+              class="secondary"
+              style="
+                justify-content:space-between
+              "
+              data-episode="${episode.id}"
+              data-season-id="${season.id}"
+            >
+
+              <span>
+                ${esc(
+                  episode.title
+                )}
+              </span>
+
+              <small>
+                ${esc(
+                  episode.duration ||
+                  ""
+                )}
+              </small>
+
+            </button>
+
+          `
+        )
+        .join("")
+      }
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   OYNATICI
+========================= */
+
+function playContent(
+ 
