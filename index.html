@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Dizi, Film, Anime & Sosyal</title>
+    <title>StreamFlix - Canlı Sistem</title>
     <style>
         :root {
             --bg-color: #141414;
@@ -25,7 +25,69 @@
             overflow-x: hidden;
         }
 
-        /* HEADER */
+        /* PROFİL SEÇİM EKRANI */
+        #profile-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #141414;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .profile-card {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-card:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            border: 3px solid transparent;
+        }
+
+        .profile-card:hover .profile-avatar {
+            border-color: white;
+        }
+
+        .avatar-admin { background: #e50914; }
+        .avatar-adult { background: #0071eb; }
+        .avatar-child { background: #2ecc71; }
+
+        .profile-card p {
+            margin-top: 10px;
+            color: #b3b3b3;
+            font-size: 18px;
+        }
+
+        /* ANA UYGULAMA ALANI */
+        #app-container {
+            display: none;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -35,16 +97,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             z-index: 1000;
-            transition: background 0.3s;
         }
 
         .logo {
             color: var(--primary-color);
             font-size: 28px;
             font-weight: bold;
-            letter-spacing: 1px;
             cursor: pointer;
         }
 
@@ -52,6 +112,7 @@
             display: flex;
             list-style: none;
             gap: 25px;
+            align-items: center;
         }
 
         nav ul li a {
@@ -67,205 +128,229 @@
             font-weight: bold;
         }
 
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .profile-icon {
-            width: 35px;
-            height: 35px;
-            background-color: #333;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .nitro-badge {
+            background: linear-gradient(45deg, #ff7300, #ff00c8);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: bold;
+            color: white;
+            cursor: pointer;
         }
 
-        /* HERO BANNER */
-        .hero {
-            height: 70vh;
-            background: linear-gradient(to top, var(--bg-color), transparent), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+        /* SAYFA İÇERİKLERİ */
+        .page-content {
+            display: none;
+            padding: 120px 50px 50px 50px;
+            min-height: 100vh;
+        }
+
+        .page-content.active-page {
+            display: block;
+        }
+
+        /* SOHBET / DM EKRANI ÖRNEĞİ */
+        .chat-box {
+            background: #1f1f1f;
+            border-radius: 8px;
+            height: 60vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 0 50px 80px 50px;
+            padding: 20px;
+            margin-top: 20px;
         }
 
-        .hero h1 {
-            font-size: 48px;
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
 
-        .hero p {
-            font-size: 16px;
-            max-width: 600px;
-            margin-bottom: 20px;
-            color: #ddd;
-            line-height: 1.5;
+        .message {
+            background: #333;
+            padding: 10px 15px;
+            border-radius: 6px;
+            max-width: 60%;
         }
 
-        .hero-buttons {
+        .chat-input-area {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
 
-        .btn {
-            padding: 10px 25px;
-            border: none;
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px;
             border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.2s;
-        }
-
-        .btn-play {
-            background-color: white;
-            color: black;
-        }
-
-        .btn-secondary {
-            background-color: rgba(109, 109, 110, 0.7);
+            border: none;
+            background: #2a2a2a;
             color: white;
         }
 
-        .btn:hover {
-            opacity: 0.85;
-        }
-
-        /* SECTIONS / CONTENT ROWS */
-        .content-section {
-            padding: 20px 50px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .card-row {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            scrollbar-width: none;
-        }
-
-        .card-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .card {
-            min-width: 200px;
-            height: 120px;
-            background-color: #222;
+        .chat-input-area button {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            border: none;
+            color: white;
             border-radius: 4px;
-            overflow: hidden;
             cursor: pointer;
-            transition: transform 0.3s;
-            position: relative;
         }
 
-        .card:hover {
-            transform: scale(1.08);
-            z-index: 10;
+        /* REELS AKIŞI ÖRNEĞİ */
+        .reels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ÖZELLİK PANELİ BİLGİLENDİRME */
-        .features-info {
-            background: #1f1f1f;
-            margin: 40px 50px;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .features-info h3 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .features-info ul {
-            margin-left: 20px;
-            color: #bbb;
-            font-size: 14px;
-            line-height: 1.6;
+        .reel-item {
+            width: 300px;
+            height: 500px;
+            background: #222;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #888;
+            border: 2px solid #333;
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo">STREAMFLIX</div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Ana Sayfa</a></li>
-                <li><a href="#">Dizi & Film</a></li>
-                <li><a href="#">Anime</a></li>
-                <li><a href="#">Reels</a></li>
-                <li><a href="#">Topluluk & Sohbet</a></li>
+    <!-- 1. PROFİL SEÇİM EKRANI -->
+    <div id="profile-screen">
+        <h1>Kim İzliyor?</h1>
+        <div class="profile-container">
+            <div class="profile-card" onclick="selectProfile('Admin')">
+                <div class="profile-avatar avatar-admin">EK</div>
+                <p>Ege (Admin)</p>
+            </div>
+            <div class="profile-card" onclick="selectProfile('Adult')">
+                <div class="profile-avatar avatar-adult">🎬</div>
+                <p>Standart</p>
+            </div>
+            <div class="profile-card" onclick="selectProfile('Child')">
+                <div class="profile-avatar avatar-child">👶</div>
+                <p>Çocuk</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ANA UYGULAMA -->
+    <div id="app-container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo" onclick="switchPage('home')">STREAMFLIX</div>
+            <nav>
+                <ul>
+                    <li><a onclick="switchPage('home')" id="nav-home" class="active">Ana Sayfa</a></li>
+                    <li><a onclick="switchPage('movies')" id="nav-movies">Dizi & Film</a></li>
+                    <li><a onclick="switchPage('anime')" id="nav-anime">Anime</a></li>
+                    <li><a onclick="switchPage('reels')" id="nav-reels">Reels</a></li>
+                    <li><a onclick="switchPage('chat')" id="nav-chat">Topluluk & Sohbet</a></li>
+                    <li><a onclick="switchPage('nitro')" class="nitro-badge">✨ Nitro / Premium</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <span id="current-profile-display" style="font-size: 14px; color: var(--primary-color); font-weight: bold;"></span>
+            </div>
+        </header>
+
+        <!-- ANA SAYFA -->
+        <div id="page-home" class="page-content active-page">
+            <h2>Hoş Geldin!</h2>
+            <p style="margin-top: 10px; color: #aaa;">Üst menüden sekmeler arasında geçiş yapabilir, sohbet odalarına katılabilirsin.</p>
+        </div>
+
+        <!-- DİZİ & FİLM -->
+        <div id="page-movies" class="page-content">
+            <h2>Dizi ve Film Arşivi</h2>
+            <p style="margin-top: 10px; color: #aaa;">Netflix tarzı içerikler burada listeleniyor.</p>
+        </div>
+
+        <!-- ANİME -->
+        <div id="page-anime" class="page-content">
+            <h2>Anime Kütüphanesi</h2>
+            <p style="margin-top: 10px; color: #aaa;">En popüler animeler ve bölümleri.</p>
+        </div>
+
+        <!-- REELS -->
+        <div id="page-reels" class="page-content">
+            <h2 style="text-align: center; margin-bottom: 20px;">Dikey Reels Akışı</h2>
+            <div class="reels-container">
+                <div class="reel-item">Reel Video 1 (Dikey Akış)</div>
+                <div class="reel-item">Reel Video 2 (Dikey Akış)</div>
+            </div>
+        </div>
+
+        <!-- SOHBET & DM -->
+        <div id="page-chat" class="page-content">
+            <h2>Topluluk Genel Sohbet & DM Odası</h2>
+            <div class="chat-box">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message"><strong>Sistem:</strong> Sohbet odasına hoş geldin! Kurallara dikkat edelim.</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Mesaj yaz...">
+                    <button onclick="sendMessage()">Gönder</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NITRO / PREMIUM -->
+        <div id="page-nitro" class="page-content">
+            <h2>✨ Nitro / Premium Ayrıcalıkları</h2>
+            <ul style="margin-top: 20px; line-height: 2; color: #ccc;">
+                <li>🎨 Özel Profil Temaları ve Renkli İsimler</li>
+                <li>🚀 Hareketli GIF Avatarlar</li>
+                <li>🎙️ Sesli Sohbet Odalarında Öncelik</li>
+                <li>🚫 %100 Reklamsız Deneyim</li>
             </ul>
-        </nav>
-        <div class="user-menu">
-            <span style="font-size: 14px; cursor: pointer;">İçerik İste</span>
-            <div class="profile-icon" title="Profil & Admin">EK</div>
-        </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <div class="hero">
-        <h1>Inception</h1>
-        <p>Zihnin sınırlarında geçen, rüya içinde rüya konseptli başyapıt. IMDb: 8.8</p>
-        <div class="hero-buttons">
-            <button class="btn btn-play">▶ Oynat</button>
-            <button class="btn btn-secondary">ⓘ Watch Party Başlat</button>
         </div>
     </div>
 
-    <!-- KATEGORİ SATIRLARI -->
-    <div class="content-section">
-        <div class="section-title">Kaldığın Yerden Devam Et</div>
-        <div class="card-row">
-            <div class="card"><img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=400&q=80" alt="İçerik"></div>
-            <div class="card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" alt="İçerik"></div>
-        </div>
-    </div>
+    <script>
+        // Profil Seçme Mantığı
+        function selectProfile(type) {
+            document.getElementById('profile-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            
+            let name = type === 'Admin' ? 'Ege (Admin)' : (type === 'Adult' ? 'Standart Profil' : 'Çocuk Profili');
+            document.getElementById('current-profile-display').innerText = name;
+        }
 
-    <div class="content-section">
-        <div class="section-title">Trend Animeler</div>
-        <div class="card-row">
-            <div class="card"><img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" alt="Anime"></div>
-            <div class="card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=400&q=80" alt="Anime"></div>
-        </div>
-    </div>
+        // Sayfa Değiştirme (Sekmeler)
+        function switchPage(pageId) {
+            let pages = document.querySelectorAll('.page-content');
+            pages.forEach(p => p.classList.remove('active-page'));
 
-    <!-- SİSTEM ÖZETİ BİLGİ KUTUSU -->
-    <div class="features-info">
-        <h3>🚀 Entegre Edilen Sistem Özellikleri:</h3>
-        <ul>
-            <li><strong>Netflix & Anime & Reels</strong> sekmeleri ve geçiş dinamikleri hazır.</li>
-            <li><strong>Watch Party & Kaldığın Yerden Devam Et</strong> altyapısı için kurgu tamamlandı.</li>
-            <li><strong>İçerik İstek Kutusu</strong> ve <strong>Admin Paneli</strong> entegrasyonu için sıradaki adıma geçmeye hazırız.</li>
-        </ul>
-    </div>
+            let navs = document.querySelectorAll('nav ul li a');
+            navs.forEach(n => n.classList.remove('active'));
 
+            document.getElementById('page-' + pageId).classList.add('active-page');
+            document.getElementById('nav-' + pageId).classList.add('active');
+        }
+
+        // Sohbet Mesaj Gönderme Örneği
+        function sendMessage() {
+            let input = document.getElementById('chat-input');
+            if (input.value.trim() === '') return;
+
+            let chatMessages = document.getElementById('chat-messages');
+            let msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = `<strong>Sen:</strong> ${input.value}`;
+            chatMessages.appendChild(msgDiv);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
 </body>
 </html>
-
-
