@@ -1,33 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STREAMFLIX</title>
 
 <style>
-*{
-    box-sizing:border-box;
+*{box-sizing:border-box}
+
+html,body{
     margin:0;
-    padding:0;
+    min-height:100%;
+    background:#080808;
+    color:#fff;
+    font-family:Arial,sans-serif;
 }
 
-:root{
-    --red:#e50914;
-    --bg:#080808;
-    --card:#151515;
-    --text:#fff;
-    --muted:#999;
-}
-
-body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:Arial,Helvetica,sans-serif;
-    min-height:100vh;
-}
-
-button,input{
+button,input,select,textarea{
     font:inherit;
 }
 
@@ -43,94 +32,94 @@ button{
 
 #auth{
     min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display:grid;
+    place-items:center;
     padding:20px;
     background:
-        linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.9)),
-        radial-gradient(circle at center,#421010,#050505 65%);
+        radial-gradient(
+            circle at 50% 20%,
+            #3a1010,
+            #080808 55%
+        );
 }
 
-.auth-box{
-    width:100%;
-    max-width:400px;
-    background:#111;
-    padding:35px 28px;
+.authbox{
+    width:min(410px,100%);
+    background:#121212;
+    padding:30px;
     border-radius:14px;
-    box-shadow:0 15px 50px rgba(0,0,0,.7);
+    box-shadow:0 20px 70px #000;
 }
 
 .logo{
-    font-size:32px;
+    font-size:34px;
     font-weight:900;
     text-align:center;
-    margin-bottom:30px;
-    letter-spacing:-2px;
+    margin-bottom:28px;
 }
 
-.logo span{
-    color:var(--red);
+.logo b,
+.red{
+    color:#e50914;
 }
 
-.auth-box h2{
+.authbox h2{
     text-align:center;
-    margin-bottom:20px;
 }
 
-.input{
+.field{
     width:100%;
+    padding:14px;
+    margin:7px 0;
     background:#222;
     border:1px solid #333;
-    color:#fff;
-    padding:14px;
     border-radius:7px;
-    margin-bottom:12px;
-    outline:none;
+    color:#fff;
+    outline:0;
 }
 
-.input:focus{
-    border-color:var(--red);
+.field:focus{
+    border-color:#e50914;
+}
+
+.btn{
+    border:0;
+    border-radius:7px;
+    padding:13px 18px;
+    font-weight:700;
 }
 
 .primary{
-    width:100%;
-    border:0;
-    padding:14px;
-    border-radius:7px;
-    background:var(--red);
-    color:white;
-    font-weight:bold;
-    margin-top:5px;
-}
-
-.secondary{
-    background:#292929;
+    background:#e50914;
     color:#fff;
-    border:0;
-    padding:11px 16px;
-    border-radius:7px;
 }
 
-.auth-switch{
+.full{
+    width:100%;
+    margin-top:8px;
+}
+
+.switch{
     text-align:center;
-    color:#aaa;
-    margin-top:20px;
+    color:#999;
+    margin-top:18px;
     font-size:14px;
 }
 
-.auth-switch span{
+.switch button{
+    background:none;
+    border:0;
     color:#fff;
-    cursor:pointer;
-    font-weight:bold;
+    font-weight:700;
+    padding:0;
 }
 
-.error{
-    background:#3b0909;
+.err{
     color:#ff8585;
-    padding:10px;
+    background:#360909;
     border-radius:6px;
-    margin-bottom:12px;
+    padding:10px;
+    margin:10px 0;
     font-size:14px;
 }
 
@@ -142,1371 +131,179 @@ button{
 }
 
 header{
-    height:70px;
-    background:rgba(8,8,8,.95);
-    border-bottom:1px solid #222;
+    height:68px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 5%;
+    background:#0b0b0b;
+    border-bottom:1px solid #222;
     position:sticky;
     top:0;
-    z-index:100;
-    backdrop-filter:blur(10px);
+    z-index:20;
 }
 
-.header-logo{
+.headlogo{
     font-size:27px;
     font-weight:900;
-    letter-spacing:-2px;
 }
 
-.header-logo span{
-    color:var(--red);
-}
-
-.header-right{
+.headright{
     display:flex;
-    gap:10px;
-    align-items:center;
+    gap:8px;
 }
 
-.icon-btn{
+.icon{
     width:42px;
     height:42px;
-    border-radius:50%;
     border:0;
-    background:#1d1d1d;
+    border-radius:50%;
+    background:#202020;
     color:#fff;
-    font-size:20px;
+    font-size:19px;
 }
 
-.profile-btn{
-    background:var(--red);
+.profile{
+    background:#e50914;
 }
+
+/* NAV */
 
 nav{
     display:flex;
     justify-content:center;
     gap:35px;
-    padding:18px 10px;
-    background:#0c0c0c;
+    background:#0b0b0b;
     border-bottom:1px solid #181818;
+    padding:16px;
 }
 
-nav button{
-    border:0;
+nav button,
+.bottom button{
     background:none;
+    border:0;
     color:#aaa;
-    font-weight:bold;
+    font-weight:700;
 }
 
 nav button.active,
-nav button:hover{
-    color:var(--red);
+.bottom button.active{
+    color:#e50914;
 }
 
 /* HERO */
 
 .hero{
-    min-height:480px;
+    min-height:450px;
     padding:70px 7%;
     display:flex;
     align-items:center;
+
     background:
-        linear-gradient(90deg,#050505 5%,rgba(5,5,5,.85) 35%,rgba(5,5,5,.2)),
-        linear-gradient(0deg,#080808,transparent 35%),
-        radial-gradient(circle at 75% 45%,#441414,#101010 45%,#050505);
+        linear-gradient(
+            90deg,
+            #050505 5%,
+            #050505d9 35%,
+            #05050522
+        ),
+        radial-gradient(
+            circle at 75% 40%,
+            #531414,
+            #080808 55%
+        );
 }
 
-.hero-content{
+.hero div{
     max-width:600px;
 }
 
-.badge{
-    color:var(--red);
-    font-weight:bold;
-    margin-bottom:12px;
-    font-size:18px;
-}
-
 .hero h1{
-    font-size:clamp(42px,7vw,75px);
-    line-height:.95;
-    margin-bottom:20px;
+    font-size:clamp(45px,8vw,78px);
+    margin:8px 0 18px;
 }
 
 .hero p{
     color:#ccc;
     line-height:1.6;
-    max-width:500px;
 }
 
-.hero-buttons{
+.actions{
     display:flex;
     gap:10px;
-    margin-top:25px;
     flex-wrap:wrap;
+    margin-top:25px;
 }
 
-.watch-btn{
-    background:white;
+.white{
+    background:#fff;
     color:#000;
-    border:0;
-    padding:13px 22px;
-    border-radius:6px;
-    font-weight:bold;
 }
 
-.list-btn{
-    background:#333;
-    color:white;
-    border:0;
-    padding:13px 22px;
-    border-radius:6px;
+.dark{
+    background:#292929;
+    color:#fff;
 }
 
 /* CONTENT */
 
 .section{
-    padding:35px 5%;
+    padding:30px 5%;
 }
 
-.section-title{
+.title{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:18px;
 }
 
-.section-title h2{
-    font-size:22px;
+.title h2{
+    margin:0;
 }
 
-.section-title button{
-    border:0;
+.title button{
     background:none;
-    color:var(--red);
-    font-weight:bold;
+    border:0;
+    color:#e50914;
+    font-weight:700;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:16px;
+    grid-template-columns:
+        repeat(auto-fill,minmax(145px,1fr));
+    gap:15px;
 }
 
+/* CARDS */
+
 .card{
-    background:var(--card);
+    background:#151515;
     border-radius:9px;
     overflow:hidden;
-    cursor:pointer;
-    transition:.2s;
+    transition:.15s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-4px);
 }
 
 .poster{
-    width:100%;
     aspect-ratio:2/3;
-    background:#222;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:45px;
+    background:
+        linear-gradient(
+            145deg,
+            #301010,
+            #202020
+        );
+    display:grid;
+    place-items:center;
+    font-size:52px;
 }
 
-.poster img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.card-info{
+.info{
     padding:10px;
 }
 
-.card-title{
-    font-weight:bold;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.card-type{
-    color:#888;
-    font-size:12px;
-    margin-top:5px;
-}
-
-/* SEARCH */
-
-.search-page{
-    padding:35px 5%;
-}
-
-.search-box{
-    display:flex;
-    gap:8px;
-    margin-bottom:30px;
-}
-
-.search-box input{
-    flex:1;
-}
-
-/* PROFILE */
-
-.profile-page{
-    max-width:700px;
-    margin:auto;
-    padding:40px 20px;
-}
-
-.profile-card{
-    background:#151515;
-    padding:25px;
-    border-radius:12px;
-}
-
-.avatar{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:var(--red);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:38px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.8);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:500;
-}
-
-.modal-box{
-    width:100%;
-    max-width:650px;
-    max-height:90vh;
-    overflow:auto;
-    background:#151515;
-    border-radius:12px;
-    padding:25px;
-}
-
-.close{
-    float:right;
-    border:0;
-    background:none;
-    color:white;
-    font-size:25px;
-}
-
-.modal h2{
-    margin-bottom:15px;
-}
-
-.modal p{
-    color:#bbb;
-    line-height:1.6;
-    margin-bottom:15px;
-}
-
-/* PLAYER */
-
-.player{
-    width:100%;
-    aspect-ratio:16/9;
-    background:#000;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#777;
-    margin-bottom:20px;
-}
-
-/* BOTTOM */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:65px;
-    background:rgba(12,12,12,.97);
-    border-top:1px solid #222;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:200;
-}
-
-.bottom-nav button{
-    border:0;
-    background:none;
-    color:#888;
-    font-size:12px;
-}
-
-.bottom-nav button.active{
-    color:var(--red);
-}
-
-.bottom-nav .emoji{
-    display:block;
-    font-size:22px;
-    margin-bottom:2px;
-}
-
-/* ADMIN */
-
-.admin{
-    max-width:900px;
-    margin:auto;
-    padding:30px 20px;
-}
-
-.admin-box{
-    background:#151515;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:20px;
-}
-
-.admin-row{
-    display:flex;
-    gap:10px;
-    margin-bottom:10px;
-}
-
-.admin-row .input{
-    margin:0;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    header{
-        padding:0 15px;
-    }
-
-    .header-logo{
-        font-size:23px;
-    }
-
-    nav{
-        gap:20px;
-        overflow-x:auto;
-        justify-content:flex-start;
-        padding-left:20px;
-    }
-
-    .hero{
-        min-height:430px;
-        padding:45px 25px;
-    }
-
-    .hero h1{
-        font-size:45px;
-    }
-
-    .section{
-        padding:25px 15px;
-    }
-
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:10px;
-    }
-
-    .card-info{
-        padding:8px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<!-- AUTH -->
-<section id="auth">
-
-    <div class="auth-box">
-
-        <div class="logo">
-            STREAM<span>FLIX</span>
-        </div>
-
-        <div id="loginForm">
-
-            <h2>Giriş Yap</h2>
-
-            <div id="loginError"></div>
-
-            <input
-                id="loginEmail"
-                class="input"
-                type="email"
-                placeholder="E-posta"
-            >
-
-            <input
-                id="loginPassword"
-                class="input"
-                type="password"
-                placeholder="Şifre"
-            >
-
-            <button class="primary" id="loginBtn">
-                Giriş Yap
-            </button>
-
-            <div class="auth-switch">
-                Hesabın yok mu?
-                <span id="showRegister">Kayıt Ol</span>
-            </div>
-
-        </div>
-
-        <div id="registerForm" class="hidden">
-
-            <h2>Hesap Oluştur</h2>
-
-            <div id="registerError"></div>
-
-            <input
-                id="registerName"
-                class="input"
-                type="text"
-                placeholder="Kullanıcı adı"
-            >
-
-            <input
-                id="registerEmail"
-                class="input"
-                type="email"
-                placeholder="E-posta"
-            >
-
-            <input
-                id="registerPassword"
-                class="input"
-                type="password"
-                placeholder="Şifre"
-            >
-
-            <button class="primary" id="registerBtn">
-                Kayıt Ol
-            </button>
-
-            <div class="auth-switch">
-                Hesabın var mı?
-                <span id="showLogin">Giriş Yap</span>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- APP -->
-<section id="app" class="hidden">
-
-    <header>
-
-        <div class="header-logo">
-            STREAM<span>FLIX</span>
-        </div>
-
-        <div class="header-right">
-
-            <button
-                class="icon-btn"
-                id="searchBtn"
-                title="Ara">
-                🔍
-            </button>
-
-            <button
-                class="icon-btn profile-btn"
-                id="profileBtn"
-                title="Profil">
-                👤
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <nav>
-
-        <button class="nav-btn active" data-page="home">
-            Ana Sayfa
-        </button>
-
-        <button class="nav-btn" data-page="series">
-            Diziler
-        </button>
-
-        <button class="nav-btn" data-page="movies">
-            Filmler
-        </button>
-
-        <button class="nav-btn" data-page="list">
-            Listem
-        </button>
-
-    </nav>
-
-
-    <main id="content"></main>
-
-
-    <div class="bottom-nav">
-
-        <button class="active" data-page="home">
-            <span class="emoji">⌂</span>
-            Ana Sayfa
-        </button>
-
-        <button data-page="series">
-            <span class="emoji">▣</span>
-            Diziler
-        </button>
-
-        <button data-page="movies">
-            <span class="emoji">🎬</span>
-            Filmler
-        </button>
-
-        <button data-page="list">
-            <span class="emoji">♡</span>
-            Listem
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
-
-    <div class="modal-box">
-
-        <button class="close" id="closeModal">
-            ×
-        </button>
-
-        <div id="modalContent"></div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-   STREAMFLIX
-   TEK DOSYA SÜRÜMÜ
-   ========================================================= */
-
-"use strict";
-
-
-/* DATABASE */
-
-const DB_KEY = "streamflix_db_v3";
-const SESSION_KEY = "streamflix_session_v3";
-
-const ADMIN_EMAIL = "egekaymak370@gmail.com";
-
-
-/* DEFAULT CONTENT */
-
-const defaultContent = [
-
-    {
-        id:1,
-        title:"Stranger Things",
-        type:"Dizi",
-        category:"series",
-        year:2022,
-        description:"Gizemli olayların yaşandığı küçük bir kasabada başlayan bilim kurgu macerası.",
-        emoji:"👾"
-    },
-
-    {
-        id:2,
-        title:"The Last of Us",
-        type:"Dizi",
-        category:"series",
-        year:2023,
-        description:"Zorlu bir dünyada hayatta kalmaya çalışan iki kişinin hikayesi.",
-        emoji:"🍄"
-    },
-
-    {
-        id:3,
-        title:"The Boys",
-        type:"Dizi",
-        category:"series",
-        year:2024,
-        description:"Süper güçlere sahip insanların karanlık tarafını anlatan aksiyon dizisi.",
-        emoji:"⚡"
-    },
-
-    {
-        id:4,
-        title:"Inception",
-        type:"Film",
-        category:"movies",
-        year:2010,
-        description:"Rüyaların içine girerek fikirleri değiştirme üzerine kurulu bilim kurgu filmi.",
-        emoji:"🌀"
-    },
-
-    {
-        id:5,
-        title:"Interstellar",
-        type:"Film",
-        category:"movies",
-        year:2014,
-        description:"İnsanlığın geleceği için uzayda yeni bir yaşam alanı arayan astronotların hikayesi.",
-        emoji:"🌌"
-    },
-
-    {
-        id:6,
-        title:"The Dark Knight",
-        type:"Film",
-        category:"movies",
-        year:2008,
-        description:"Gotham'da Batman ile Joker arasındaki mücadeleyi anlatan süper kahraman filmi.",
-        emoji:"🦇"
-    },
-
-    {
-        id:7,
-        title:"Avatar",
-        type:"Film",
-        category:"movies",
-        year:2009,
-        description:"Pandora gezegeninde geçen büyük bir bilim kurgu macerası.",
-        emoji:"🌍"
-    },
-
-    {
-        id:8,
-        title:"Spider-Man",
-        type:"Film",
-        category:"movies",
-        year:2021,
-        description:"Spider-Man'in çoklu evrenlerle karşılaşmasını anlatan macera.",
-        emoji:"🕷️"
-    }
-
-];
-
-
-/* DATABASE LOAD */
-
-function loadDB(){
-
-    try{
-
-        const raw = localStorage.getItem(DB_KEY);
-
-        if(!raw){
-
-            const db = {
-                users:[],
-                content:defaultContent,
-                version:3
-            };
-
-            localStorage.setItem(DB_KEY,JSON.stringify(db));
-
-            return db;
-        }
-
-        const db = JSON.parse(raw);
-
-        if(!Array.isArray(db.users)){
-            db.users=[];
-        }
-
-        if(!Array.isArray(db.content)){
-            db.content=defaultContent;
-        }
-
-        return db;
-
-    }catch(error){
-
-        console.error("Database hatası:",error);
-
-        const db={
-            users:[],
-            content:defaultContent,
-            version:3
-        };
-
-        localStorage.setItem(DB_KEY,JSON.stringify(db));
-
-        return db;
-    }
-}
-
-
-let db = loadDB();
-
-
-function saveDB(){
-
-    try{
-        localStorage.setItem(DB_KEY,JSON.stringify(db));
-    }catch(error){
-        console.error("Database kaydedilemedi:",error);
-    }
-
-}
-
-
-/* SESSION */
-
-function getSession(){
-
-    try{
-
-        const session=localStorage.getItem(SESSION_KEY);
-
-        if(!session){
-            return null;
-        }
-
-        return JSON.parse(session);
-
-    }catch(error){
-
-        localStorage.removeItem(SESSION_KEY);
-
-        return null;
-    }
-
-}
-
-
-function setSession(user){
-
-    localStorage.setItem(
-        SESSION_KEY,
-        JSON.stringify({
-            email:user.email
-        })
-    );
-
-}
-
-
-function clearSession(){
-
-    localStorage.removeItem(SESSION_KEY);
-
-}
-
-
-/* ELEMENT */
-
-const auth = document.getElementById("auth");
-const app = document.getElementById("app");
-const content = document.getElementById("content");
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modalContent");
-
-
-/* ERROR */
-
-function showError(element,message){
-
-    if(!element){
-        return;
-    }
-
-    element.innerHTML =
-        '<div class="error">'+escapeHTML(message)+'</div>';
-
-}
-
-
-function clearError(element){
-
-    if(element){
-        element.innerHTML="";
-    }
-
-}
-
-
-/* SECURITY */
-
-function escapeHTML(value){
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-/* CURRENT USER */
-
-function currentUser(){
-
-    const session=getSession();
-
-    if(!session){
-        return null;
-    }
-
-    return db.users.find(
-        user => user.email === session.email
-    ) || null;
-
-}
-
-
-/* AUTH SCREEN */
-
-function showAuth(){
-
-    auth.classList.remove("hidden");
-    app.classList.add("hidden");
-
-}
-
-
-function showApp(){
-
-    auth.classList.add("hidden");
-    app.classList.remove("hidden");
-
-    renderHome();
-
-}
-
-
-/* LOGIN */
-
-function login(){
-
-    const email =
-        document.getElementById("loginEmail").value
-        .trim()
-        .toLowerCase();
-
-    const password =
-        document.getElementById("loginPassword").value;
-
-    const error =
-        document.getElementById("loginError");
-
-    clearError(error);
-
-    if(!email || !password){
-
-        showError(
-            error,
-            "E-posta ve şifreyi gir."
-        );
-
-        return;
-    }
-
-    const user=db.users.find(
-        u =>
-            u.email===email &&
-            u.password===password
-    );
-
-    if(!user){
-
-        showError(
-            error,
-            "E-posta veya şifre yanlış."
-        );
-
-        return;
-    }
-
-    setSession(user);
-
-    showApp();
-
-}
-
-
-/* REGISTER */
-
-function register(){
-
-    const name =
-        document.getElementById("registerName")
-        .value.trim();
-
-    const email =
-        document.getElementById("registerEmail")
-        .value.trim()
-        .toLowerCase();
-
-    const password =
-        document.getElementById("registerPassword")
-        .value;
-
-    const error =
-        document.getElementById("registerError");
-
-    clearError(error);
-
-    if(name.length<2){
-
-        showError(
-            error,
-            "Kullanıcı adı en az 2 karakter olmalı."
-        );
-
-        return;
-    }
-
-    if(!email.includes("@")){
-
-        showError(
-            error,
-            "Geçerli bir e-posta gir."
-        );
-
-        return;
-    }
-
-    if(password.length<4){
-
-        showError(
-            error,
-            "Şifre en az 4 karakter olmalı."
-        );
-
-        return;
-    }
-
-    const exists=db.users.some(
-        u=>u.email===email
-    );
-
-    if(exists){
-
-        showError(
-            error,
-            "Bu e-posta zaten kayıtlı."
-        );
-
-        return;
-    }
-
-    const user={
-        id:Date.now(),
-        name:name,
-        email:email,
-        password:password,
-        list:[],
-        createdAt:new Date().toISOString()
-    };
-
-    db.users.push(user);
-
-    saveDB();
-
-    setSession(user);
-
-    showApp();
-
-}
-
-
-/* LOGOUT */
-
-function logout(){
-
-    clearSession();
-
-    closeModal();
-
-    showAuth();
-
-}
-
-
-/* CARD */
-
-function createCard(item){
-
-    const card=document.createElement("div");
-
-    card.className="card";
-
-    card.innerHTML=`
-
-        <div class="poster">
-            ${escapeHTML(item.emoji || "🎬")}
-        </div>
-
-        <div class="card-info">
-
-            <div class="card-title">
-                ${escapeHTML(item.title)}
-            </div>
-
-            <div class="card-type">
-                ${escapeHTML(item.type)} • ${item.year}
-            </div>
-
-        </div>
-    `;
-
-    card.addEventListener(
-        "click",
-        ()=>openDetails(item)
-    );
-
-    return card;
-}
-
-
-/* SECTION */
-
-function createSection(title,items){
-
-    if(!items.length){
-        return "";
-    }
-
-    return `
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>
-                    ${escapeHTML(title)}
-                </h2>
-
-                <button
-                    onclick="showAllContent()">
-                    Tümünü Gör
-                </button>
-
-            </div>
-
-            <div
-                class="grid"
-                id="grid-${title.replace(/\W/g,"")}"
-            ></div>
-
-        </section>
-    `;
-}
-
-
-/* HOME */
-
-function renderHome(){
-
-    setActivePage("home");
-
-    const popular=db.content.slice(0,4);
-    const newest=[...db.content].reverse().slice(0,4);
-
-    content.innerHTML=`
-
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <div class="badge">
-                    NETFLIX DİZİSİ
-                </div>
-
-                <h1>
-                    THE WITCHER
-                </h1>
-
-                <p>
-                    Kaderini değiştiren bir canavar avcısı.
-                    Destanı şimdi başlıyor.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <button
-                        class="watch-btn"
-                        id="heroWatch">
-                        ▶ Oynat
-                    </button>
-
-                    <button
-                        class="list-btn"
-                        id="heroList">
-                        ＋ Listeme Ekle
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        ${createSection("Popüler İçerikler",popular)}
-
-        ${createSection("Yeni Eklenenler",newest)}
-
-    `;
-
-    const popularGrid =
-        document.getElementById(
-            "grid-Popülerİçerikler"
-        );
-
-    const newestGrid =
-        document.getElementById(
-            "grid-YeniEklenenler"
-        );
-
-    popular.forEach(
-        item=>popularGrid.appendChild(createCard(item))
-    );
-
-    newest.forEach(
-        item=>newestGrid.appendChild(createCard(item))
-    );
-
-    document.getElementById("heroWatch")
-        .onclick=()=>{
-            openDetails({
-                title:"The Witcher",
-                type:"Dizi",
-                year:2023,
-                description:
-                    "Canavar avcısı Geralt'ın maceraları."
-            });
-        };
-
-    document.getElementById("heroList")
-        .onclick=()=>{
-            addToList({
-                title:"The Witcher",
-                type:"Dizi"
-            });
-        };
-
-}
-
-
-/* SERIES */
-
-function renderSeries(){
-
-    setActivePage("series");
-
-    renderListing(
-        "Diziler",
-        db.content.filter(
-            item=>item.category==="series"
-        )
-    );
-
-}
-
-
-/* MOVIES */
-
-function renderMovies(){
-
-    setActivePage("movies");
-
-    renderListing(
-        "Filmler",
-        db.content.filter(
-            item=>item.category==="movies"
-        )
-    );
-
-}
-
-
-/* LIST */
-
-function renderList(){
-
-    setActivePage("list");
-
-    const user=currentUser();
-
-    if(!user){
-
-        showAuth();
-
-        return;
-    }
-
-    const items=db.content.filter(
-        item=>user.list.includes(item.id)
-    );
-
-    content.innerHTML=`
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>
-                    Listem
-                </h2>
-
-            </div>
-
-            <div class="grid" id="listGrid"></div>
-
-        </section>
-    `;
-
-    const grid=document.getElementById("listGrid");
-
-    if(!items.length){
-
-        grid.innerHTML=
-            "<p style='color:#888'>Listen henüz boş.</p>";
-
-        return;
-    }
-
-    items.forEach(
-        item=>grid.appendChild(createCard(item))
-    );
-
-}
-
-
-/* LISTING */
-
-function renderListing(title,items){
-
-    content.innerHTML=`
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>
-                    ${escapeHTML(title)}
-                </h2>
-
-            </div>
-
-            <div class="grid" id="listingGrid"></div>
-
-        </section>
-    `;
-
-    const grid=document.getElementById("listingGrid");
-
-    items.forEach(
-        item=>grid.appendChild(createCard(item))
-    );
-
-}
-
-
-/* ALL */
-
-function showAllContent(){
-
-    renderListing(
-        "Tüm İçerikler",
-        db.content
-    );
-
-}
-
-
-/* ACTIVE NAV */
-
-function setActivePage(page){
-
-    document.querySelectorAll(
-        ".nav-btn,.bottom-nav button"
-    ).forEach(btn=>{
-
-        btn.classList.toggle(
-            "active",
-            btn.dataset.page===page
-        );
-
-    });
-
-}
-
-
-/* DETAILS */
-
-function openDetails(item){
-
-    const user=currentUser();
-
-    const inList =
-        user &&
-        item.id &&
-        user.list.includes(item.id);
-
-    modalContent.innerHTML=`
-
-        <div class="player">
-            ▶
-        </div>
-
-        <h2>
-            ${escapeHTML(item.title)}
-        </h2>
-
-        <p>
-            ${escapeHTML(item.description || "İçerik açıklaması bulunmuyor.")}
-        </p>
-
-        <p>
-            ${escapeHTML(item.type || "")}
-            ${item.year ? " • "+item.year : ""}
-        </p>
-
-        ${
-            item.id
-            ?
+.name{
+    font-weight:700
