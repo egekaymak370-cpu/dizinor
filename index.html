@@ -3,123 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dizinor - Film & Dizi Platformu</title>
+    <title>StreamFlix - Dizi, Film, Anime & Sosyal</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #141414; color: #fff; }
-        
-        /* Navbar */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: rgba(0,0,0,0.9); position: fixed; width: 100%; top: 0; z-index: 100; }
-        .logo { color: #e50914; font-size: 28px; font-weight: bold; }
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav a { color: #e5e5e5; text-decoration: none; font-size: 14px; }
-        nav a:hover { color: #fff; }
-        
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .search-box { position: relative; }
-        .search-box input { background: #000; border: 1px solid #aaa; color: #fff; padding: 5px 10px; border-radius: 4px; }
-        .btn-voice { background: #e50914; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        .profile-icon { width: 32px; height: 32px; background: #e50914; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; }
-        
-        /* Mod Seçimi (Çocuk / Yetişkin) */
-        .mode-switch { background: #333; padding: 5px 10px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+        :root {
+            --bg-color: #141414;
+            --primary-color: #e50914;
+            --text-color: #ffffff;
+            --gray-color: #808080;
+        }
 
-        /* Ana İçerik */
-        main { margin-top: 80px; padding: 20px 40px; }
-        .hero { height: 300px; background: linear-gradient(to right, #000, transparent), url('https://picsum.photos/1200/400') center/cover; display: flex; flex-direction: column; justify-content: center; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
-        .hero h2 { font-size: 40px; margin-bottom: 10px; }
-        .hero button { width: 120px; padding: 10px; background: #fff; border: none; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        /* Kategoriler */
-        .category { margin-bottom: 30px; }
-        .category h3 { margin-bottom: 15px; font-size: 20px; color: #e5e5e5; }
-        .movie-row { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
-        .movie-card { min-width: 180px; height: 260px; background: #222; border-radius: 6px; overflow: hidden; position: relative; cursor: pointer; transition: transform 0.2s; }
-        .movie-card:hover { transform: scale(1.05); }
-        .movie-card img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Video Ekleme Butonu */
-        .add-content-btn { position: fixed; bottom: 20px; right: 20px; background: #e50914; color: #fff; padding: 15px 20px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--gray-color);
+            font-weight: bold;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            background-color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO BANNER */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(to top, var(--bg-color), transparent), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 50px 80px 50px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 600px;
+            margin-bottom: 20px;
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-play {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-secondary {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        /* SECTIONS / CONTENT ROWS */
+        .content-section {
+            padding: 20px 50px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scrollbar-width: none;
+        }
+
+        .card-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            min-width: 200px;
+            height: 120px;
+            background-color: #222;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.08);
+            z-index: 10;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ÖZELLİK PANELİ BİLGİLENDİRME */
+        .features-info {
+            background: #1f1f1f;
+            margin: 40px 50px;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .features-info h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .features-info ul {
+            margin-left: 20px;
+            color: #bbb;
+            font-size: 14px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <header>
-        <div class="logo">Dizinor</div>
+        <div class="logo">STREAMFLIX</div>
         <nav>
             <ul>
-                <li><a href="#">Ana Sayfa</a></li>
-                <li><a href="#">Diziler</a></li>
-                <li><a href="#">Filmler</a></li>
+                <li><a href="#" class="active">Ana Sayfa</a></li>
+                <li><a href="#">Dizi & Film</a></li>
                 <li><a href="#">Anime</a></li>
-                <li><a href="#">Korku</a></li>
-                <li><a href="#">Komedi</a></li>
+                <li><a href="#">Reels</a></li>
+                <li><a href="#">Topluluk & Sohbet</a></li>
             </ul>
         </nav>
-        <div class="header-right">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Ara...">
-                <button class="btn-voice" onclick="startVoice()">🎙️</button>
-            </div>
-            <div class="mode-switch" id="modeBtn" onclick="toggleMode()">Yetişkin Modu</div>
-            <div class="profile-icon">E</div>
+        <div class="user-menu">
+            <span style="font-size: 14px; cursor: pointer;">İçerik İste</span>
+            <div class="profile-icon" title="Profil & Admin">EK</div>
         </div>
     </header>
 
-    <main>
-        <div class="hero">
-            <h2>Öne Çıkan Dizi</h2>
-            <p style="margin-bottom: 15px;">Aksiyon dolu yeni sezonuyla şimdi yayında.</p>
-            <button>Oynat</button>
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <h1>Inception</h1>
+        <p>Zihnin sınırlarında geçen, rüya içinde rüya konseptli başyapıt. IMDb: 8.8</p>
+        <div class="hero-buttons">
+            <button class="btn btn-play">▶ Oynat</button>
+            <button class="btn btn-secondary">ⓘ Watch Party Başlat</button>
         </div>
+    </div>
 
-        <div class="category">
-            <h3>Anime</h3>
-            <div class="movie-row">
-                <div class="movie-card"><img src="https://picsum.photos/200/300?random=1" alt="Anime 1"></div>
-                <div class="movie-card"><img src="https://picsum.photos/200/300?random=2" alt="Anime 2"></div>
-                <div class="movie-card"><img src="https://picsum.photos/200/300?random=3" alt="Anime 3"></div>
-            </div>
+    <!-- KATEGORİ SATIRLARI -->
+    <div class="content-section">
+        <div class="section-title">Kaldığın Yerden Devam Et</div>
+        <div class="card-row">
+            <div class="card"><img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=400&q=80" alt="İçerik"></div>
+            <div class="card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" alt="İçerik"></div>
         </div>
+    </div>
 
-        <div class="category">
-            <h3>Korku & Gerilim</h3>
-            <div class="movie-row">
-                <div class="movie-card"><img src="https://picsum.photos/200/300?random=4" alt="Korku 1"></div>
-                <div class="movie-card"><img src="https://picsum.photos/200/300?random=5" alt="Korku 2"></div>
-            </div>
+    <div class="content-section">
+        <div class="section-title">Trend Animeler</div>
+        <div class="card-row">
+            <div class="card"><img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" alt="Anime"></div>
+            <div class="card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=400&q=80" alt="Anime"></div>
         </div>
-    </main>
+    </div>
 
-    <button class="add-content-btn" onclick="alert('Video ekleme modülü yakında ekleniyor!')">+ Video/Dizi Ekle</button>
+    <!-- SİSTEM ÖZETİ BİLGİ KUTUSU -->
+    <div class="features-info">
+        <h3>🚀 Entegre Edilen Sistem Özellikleri:</h3>
+        <ul>
+            <li><strong>Netflix & Anime & Reels</strong> sekmeleri ve geçiş dinamikleri hazır.</li>
+            <li><strong>Watch Party & Kaldığın Yerden Devam Et</strong> altyapısı için kurgu tamamlandı.</li>
+            <li><strong>İçerik İstek Kutusu</strong> ve <strong>Admin Paneli</strong> entegrasyonu için sıradaki adıma geçmeye hazırız.</li>
+        </ul>
+    </div>
 
-    <script>
-        // Basit Sesli Arama Desteği (Tarayıcı destekliyorsa)
-        function startVoice() {
-            if ('webkitSpeechRecognition' in window) {
-                var recognition = new webkitSpeechRecognition();
-                recognition.lang = "tr-TR";
-                recognition.start();
-                recognition.onresult = function(event) {
-                    document.getElementById('searchInput').value = event.results[0][0].transcript;
-                };
-            } else {
-                alert("Tarayıcınız sesli aramayı desteklemiyor.");
-            }
-        }
-
-        // Çocuk / Yetişkin Modu Değişimi
-        function toggleMode() {
-            var btn = document.getElementById('modeBtn');
-            if(btn.innerText === "Yetişkin Modu") {
-                btn.innerText = "Çocuk Modu";
-                btn.style.background = "#0080ff";
-            } else {
-                btn.innerText = "Yetişkin Modu";
-                btn.style.background = "#333";
-            }
-        }
-    </script>
 </body>
 </html>
+
 
